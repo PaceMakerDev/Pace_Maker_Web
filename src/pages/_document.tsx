@@ -1,4 +1,4 @@
-import Document, { DocumentContext, Head, Html } from 'next/document'
+import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 
 export default class MyDocument extends Document {
@@ -27,6 +27,7 @@ export default class MyDocument extends Document {
       sheet.seal()
     }
   }
+
   /////////////////////////////////////////
 
   render() {
@@ -44,6 +45,10 @@ export default class MyDocument extends Document {
           {/* <meta property="og:image" content="https://ssutudy/image/ogimage.png" /> */}
           <meta property="og:locale" content="ko_KR" />
         </Head>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
       </Html>
     );
   }
