@@ -24,12 +24,6 @@
     "**/*.ts",
     "**/*.tsx",
     "pages/index.tsx",
-    "actions",
-    "common",
-    "components",
-    "pages",
-    "reducers",
-    "templates",
   ],
   "exclude": [
     "node_modules"
