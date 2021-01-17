@@ -6,10 +6,11 @@ import {
   SmallEmptyButton,
   SmallFillButton,
 } from 'components/atoms/Button/Button';
+import IndexTemplate from 'templates/IndexTemplate/IndexTemplate';
 
 const Index: React.FC = () => {
   return (
-    <>
+    <IndexTemplate>
       <div>
         <SmallFillButton primary>전송</SmallFillButton>
         <SmallEmptyButton primary>전송</SmallEmptyButton>
@@ -26,7 +27,7 @@ const Index: React.FC = () => {
         <LargeFillButton primary>스터디 추가</LargeFillButton>
         <LargeEmptyButton primary>스터디 추가</LargeEmptyButton>
       </div>
-    </>
+    </IndexTemplate>
   );
 };
 
