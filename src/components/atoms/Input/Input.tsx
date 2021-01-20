@@ -9,7 +9,7 @@ export const TextInput: React.FC<InputProps> = props => {
   );
 };
 
-export const EmailInput: React.FC = props => {
+export const EmailInput: React.FC<InputProps> = props => {
   return (
     <InputWrapper>
       <StyledInput type="email" {...props} />
@@ -18,7 +18,7 @@ export const EmailInput: React.FC = props => {
   );
 };
 
-export const PasswordInput: React.FC = props => {
+export const PasswordInput: React.FC<InputProps> = props => {
   return (
     <InputWrapper>
       <StyledInput type="password" {...props} />
@@ -27,7 +27,7 @@ export const PasswordInput: React.FC = props => {
   );
 };
 
-export const NumberInput: React.FC = props => {
+export const NumberInput: React.FC<InputProps> = props => {
   return (
     <InputWrapper>
       <StyledInput type="number" {...props} />
