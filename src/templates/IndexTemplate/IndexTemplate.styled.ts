@@ -1,27 +1,24 @@
 import styled from 'styled-components';
-import { NAVIGATION_HEIGHT } from 'common/constants/style';
 
 export const MainSection = styled.div`
   width: 100%;
-  margin-top: ${NAVIGATION_HEIGHT}px;
   display: flex;
-  background-color: beige;
 `;
 
-export const AppSection = styled.div`
+export const AppSection = styled.section`
   width: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-export const LoginSection = styled.div`
+export const LoginSection = styled.section`
   width: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-export const DescriptionSection = styled.div`
+export const DescriptionSection = styled.section`
   width: 100%;
 `;

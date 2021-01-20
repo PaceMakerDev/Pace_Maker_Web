@@ -1,15 +1,13 @@
 import { MainSection, AppSection, LoginSection, DescriptionSection } from './IndexTemplate.styled';
 
-const IndexTemplate: React.FC = () => {
+const IndexTemplate: React.FC<IndexTemplateProps> = ({ app, login, description }) => {
   return (
     <>
-      {/* navigation */}
       <MainSection>
-        <AppSection>123</AppSection>
-        <LoginSection>123</LoginSection>
+        <AppSection>{app}</AppSection>
+        <LoginSection>{login}</LoginSection>
       </MainSection>
-      <DescriptionSection></DescriptionSection>
-      {/* footer */}
+      <DescriptionSection>{description}</DescriptionSection>
     </>
   );
 };

@@ -8,6 +8,10 @@ a,
 p,
 span,
 button,
-form {
+form,
+header,
+section,
+article,
+footer {
   box-sizing: border-box;
 }
