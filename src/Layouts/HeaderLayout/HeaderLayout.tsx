@@ -1,9 +1,10 @@
 import { StyledContent } from './HeaderLayout.styled';
+import Header from 'components/organisms/Header/Header';
 
 const HeaderLayout: React.FC = ({ children }) => {
   return (
     <>
-      {/* header */}
+      <Header />
       <StyledContent>{children}</StyledContent>
       {/* footer */}
     </>

@@ -1,9 +1,10 @@
+import Header from 'components/organisms/Header/Header';
 import { StyledContent } from './NavHeaderLayout.styled';
 
 const NavHeaderLayout: React.FC = ({ children }) => {
   return (
     <>
-      {/* header */}
+      <Header></Header>
       {/* nav */}
       <StyledContent>{children}</StyledContent>
     </>
