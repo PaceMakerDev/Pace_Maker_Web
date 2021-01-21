@@ -7,11 +7,12 @@ export const InputWrapper = styled.div`
 
 export const StyledInput = styled.input`
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.6rem 0;
   border: none;
-  border-bottom: 2px solid #ddd;
+  border-bottom: 1px solid #ddd;
   font-size: 0.9rem;
   box-sizing: border-box;
+  color: #222831;
 
   &:focus {
     outline: none;
@@ -24,7 +25,7 @@ export const StyledInput = styled.input`
 
 export const StyledUnderbar = styled.span`
   width: 100%;
-  height: 2px;
+  height: 1px;
   position: absolute;
   bottom: 2px;
   left: 0;
@@ -33,7 +34,7 @@ export const StyledUnderbar = styled.span`
   &::before {
     content: '';
     width: 0;
-    height: 2px;
+    height: 1px;
     position: absolute;
     left: 0;
     bottom: 0;
