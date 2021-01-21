@@ -43,6 +43,14 @@ const StyledLargeButton = styled.button`
   cursor: pointer;
 `;
 
+const StyledFullButton = styled.button`
+  width: 100%;
+  height: 50px;
+  font-size: 1.1rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+`;
+
 const fill = css`
   border: 2px solid #fff;
   border-radius: 10px;
@@ -92,6 +100,16 @@ export const StyledLargeFillButton = styled(StyledLargeButton)<{ primary?: boole
 `;
 
 export const StyledLargeEmptyButton = styled(StyledLargeButton)<{ primary?: boolean }>`
+  ${empty}
+  ${props => props.primary && emptyPrimary}
+`;
+
+export const StyledFullFillButton = styled(StyledFullButton)<{ primary?: boolean}>`
+  ${fill}
+  ${props => props.primary && fillPrimary}
+`;
+
+export const StyledFullEmptyButton = styled(StyledFullButton)<{ primary?: boolean}>`
   ${empty}
   ${props => props.primary && emptyPrimary}
 `;

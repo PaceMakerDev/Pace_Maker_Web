@@ -5,6 +5,8 @@ import {
   StyledMiddleEmptyButton,
   StyledLargeFillButton,
   StyledLargeEmptyButton,
+  StyledFullFillButton,
+  StyledFullEmptyButton,
 } from './Button.styled';
 
 interface Props {
@@ -33,3 +35,11 @@ export const LargeFillButton: React.FC<Props> = ({ children, primary }) => {
 export const LargeEmptyButton: React.FC<Props> = ({ children, primary }) => {
   return <StyledLargeEmptyButton primary={primary}>{children}</StyledLargeEmptyButton>;
 };
+
+export const FullFillButton: React.FC<Props> = ({ children, primary }) => {
+  return <StyledFullFillButton primary={primary}>{children}</StyledFullFillButton>
+}
+
+export const FullEmptyButton: React.FC<Props> = ({ children, primary }) => {
+  return <StyledFullEmptyButton primary={primary}>{children}</StyledFullEmptyButton>
+}
