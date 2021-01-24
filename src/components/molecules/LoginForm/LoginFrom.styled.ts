@@ -9,11 +9,11 @@ export const StyledLoginForm = styled.form`
 
   .inputbox {
     width: 100%;
-    margin-bottom: 30px;
+    margin-bottom: 1.85rem;
   }
 
   label {
-    margin-bottom: 10px;
+    margin-bottom: 0.6rem;
     color: #0ebeaf;
   }
 `;

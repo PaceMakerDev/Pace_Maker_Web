@@ -4,7 +4,7 @@ import { HEADER_HEIGHT } from 'common/constants/style';
 export const StyledHeader = styled.header`
   width: 100%;
   height: ${HEADER_HEIGHT}px;
-  padding: 0 30px;
+  padding: 0 1.85rem;
   position: fixed;
   top: 0;
   display: flex;
@@ -22,14 +22,14 @@ export const StyledMenuWrapper = styled.div`
   text-align: right;
 
   svg {
-    margin-left: 40px;
+    margin-left: 2.5rem;
     font-size: 1.3rem;
     color: #333;
   }
 `;
 
 export const StyledMenu = styled.a`
-  margin-left: 20px;
+  margin-left: 1.85rem;
   text-decoration: none;
   font-weight: 600;
   font-size: 1.1rem;
