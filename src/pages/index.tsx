@@ -1,14 +1,14 @@
 import IndexTemplate from 'templates/IndexTemplate/IndexTemplate';
 import HeaderLayout from 'Layouts/HeaderLayout/HeaderLayout';
 import LoginBox from 'components/organisms/LoginBox/LoginBox';
+import AppDownloadBanner from 'components/organisms/AppDownloadBanner/AppDownloadBanner';
 
-const appJSX = <div>123</div>;
 const descriptionJSX = <div>789</div>;
 
 const Index: React.FC = () => {
   return (
     <HeaderLayout>
-      <IndexTemplate app={appJSX} login={<LoginBox />} description={descriptionJSX} />
+      <IndexTemplate app={<AppDownloadBanner />} login={<LoginBox />} description={descriptionJSX} />
     </HeaderLayout>
   );
 };

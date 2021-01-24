@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledLoginBox = styled.section`
+export const StyledLoginBox = styled.div`
   width: 540px;
   margin: 1.85rem auto;
   padding: 3.75rem 0;
