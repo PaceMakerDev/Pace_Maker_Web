@@ -9,7 +9,7 @@ const LoginBox: React.FC = () => {
       <h1>SSUtudy</h1>
       <h2>로그인</h2>
       <LoginForm />
-      <Link href="#" passHref>
+      <Link href="/#" passHref>
         <StyledForgotPassword>비밀번호를 잃어버리셨나요?</StyledForgotPassword>
       </Link>
     </StyledLoginBox>

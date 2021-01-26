@@ -1,17 +1,44 @@
 import { StyledLoginForm } from './LoginFrom.styled';
 import { EmailInput, PasswordInput } from 'components/atoms/Input/Input';
 import { FullFillButton } from 'components/atoms/Button/Button';
+import axios from 'axios';
+import { useInput } from 'hook/useInput';
+import { useRouter } from 'next/router';
 
 const LoginForm: React.FC = () => {
+  const router = useRouter();
+  const [inputs, handleInputs, resetInputs] = useInput<LoginInput>({ email: '', password: '' });
+  const { email, password } = inputs;
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    try {
+      const result = await axios.post('/auth/sign-in', {
+        email,
+        password,
+      });
+      localStorage.setItem('accessKey', result.data.accessToken);
+      router.push('/mystudy');
+    } catch (err) {
+      if (err.response.status === 404) {
+        alert('이메일 혹은 비밀번호가 틀렸습니다');
+        resetInputs();
+      } else {
+        throw err;
+      }
+    }
+  };
+
   return (
-    <StyledLoginForm>
+    <StyledLoginForm onSubmit={handleSubmit}>
       <div className="inputbox">
         <label>이메일</label>
-        <EmailInput placeholder="ssutudy@ssu.ac.kr" />
+        <EmailInput name="email" value={email} placeholder="ssutudy@ssu.ac.kr" onChange={handleInputs} />
       </div>
       <div className="inputbox">
         <label>비밀번호</label>
-        <PasswordInput placeholder="비밀번호 (최소 8자리)" />
+        <PasswordInput name="password" value={password} placeholder="비밀번호 (최소 8자리)" onChange={handleInputs} />
       </div>
       <FullFillButton primary>로그인</FullFillButton>
     </StyledLoginForm>
