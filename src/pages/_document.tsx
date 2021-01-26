@@ -34,7 +34,7 @@ export default class MyDocument extends Document {
     return (
       <Html lang="ko">
         <Head>
-          <meta property="og:title" content="SSUtudy - 슈터디 " key="title" />
+          <meta property="og:title" content="슈터디 | SSUtudy " key="title" />
           <meta property="og:description" content="공부 메이트를 찾고 싶을땐? 슈터디! &#10;숭실대 학생들의 스터디 모임을 위해 제작된 플랫폼입니다" />
           <meta property="og:type" content="website" />
           {/* <meta property="og:url" content="https://ssutudy.com" /> */}
