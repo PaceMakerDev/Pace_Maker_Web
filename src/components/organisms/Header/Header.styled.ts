@@ -11,6 +11,7 @@ export const StyledHeader = styled.header`
   align-items: center;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.12);
   background-color: #fff;
+  z-index: 100;
 
   img.logo {
     width: 150px;
