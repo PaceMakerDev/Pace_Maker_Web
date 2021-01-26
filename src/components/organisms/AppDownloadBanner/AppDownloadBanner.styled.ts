@@ -16,6 +16,7 @@ export const StyledMentWrapper = styled.div`
 
   h1 {
     margin-bottom: 1.8rem;
+    line-height: 1.2;
     font-weight: bold;
     font-size: 2.8rem;
     color: #fff;
