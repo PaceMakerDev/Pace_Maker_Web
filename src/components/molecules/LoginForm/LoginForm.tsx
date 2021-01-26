@@ -34,11 +34,11 @@ const LoginForm: React.FC = () => {
     <StyledLoginForm onSubmit={handleSubmit}>
       <div className="inputbox">
         <label>이메일</label>
-        <EmailInput name="email" value={email} placeholder="ssutudy@ssu.ac.kr" onChange={handleInputs} />
+        <EmailInput name="email" value={email} required placeholder="ssutudy@ssu.ac.kr" onChange={handleInputs} />
       </div>
       <div className="inputbox">
         <label>비밀번호</label>
-        <PasswordInput name="password" value={password} placeholder="비밀번호 (최소 8자리)" onChange={handleInputs} />
+        <PasswordInput name="password" value={password} required placeholder="비밀번호 (최소 8자리)" onChange={handleInputs} />
       </div>
       <FullFillButton primary>로그인</FullFillButton>
     </StyledLoginForm>
