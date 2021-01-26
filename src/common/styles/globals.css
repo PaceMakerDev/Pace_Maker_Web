@@ -5,6 +5,18 @@ html {
   word-break: keep-all;
 }
 
+@media (max-width: 1025px) {
+  html {
+    font-size: 95%;
+  }
+}
+
+@media (max-width: 769px) {
+  html {
+    font-size: 87.5%;
+  }
+}
+
 div,
 a,
 p,
