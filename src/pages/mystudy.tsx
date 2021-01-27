@@ -1,3 +1,4 @@
+import NavHeaderLayout from 'Layouts/NavHeaderLatout/NavHeaderLayout';
 import Head from 'next/head';
 
 const Mystudy: React.FC = () => {
@@ -7,7 +8,9 @@ const Mystudy: React.FC = () => {
         <title>슈터디 | 내스터디</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      mystudy
+      <NavHeaderLayout>
+        123
+      </NavHeaderLayout>
     </>
   );
 };
