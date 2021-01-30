@@ -4,8 +4,17 @@ import LoginBox from 'components/organisms/LoginBox/LoginBox';
 import AppDownloadBanner from 'components/organisms/AppDownloadBanner/AppDownloadBanner';
 import AppDescription from 'components/organisms/AppDescription/AppDescription';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useAccessKey } from 'hook/useAccessKey';
 
 const Index: React.FC = () => {
+  const accessKey = useAccessKey();
+  const router = useRouter();
+
+  if (accessKey) {
+    router.replace('/mystudy'); // redirect if accesskey exist
+  }
+
   return (
     <>
       <Head>
