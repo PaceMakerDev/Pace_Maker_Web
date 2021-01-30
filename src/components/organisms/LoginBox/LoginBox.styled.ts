@@ -35,9 +35,12 @@ export const StyledLoginBox = styled.div`
   }
 `;
 
-export const StyledForgotPassword = styled.a`
+export const StyledForgotPassword = styled.span`
   margin-top: 1.25rem;
-  text-decoration: underline;
-  font-size: 0.8rem;
-  color: #ccc;
+
+  a {
+    text-decoration: underline;
+    font-size: 0.8rem;
+    color: #ccc;
+  }
 `;

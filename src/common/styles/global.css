@@ -1,0 +1,30 @@
+html {
+  font-size: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  word-break: keep-all;
+}
+
+@media (max-width: 1025px) {
+  html {
+    font-size: 95%;
+  }
+}
+
+@media (max-width: 769px) {
+  html {
+    font-size: 87.5%;
+  }
+}
+
+div, a, p, span, button, form,
+header, section, article, footer {
+  box-sizing: border-box;
+}

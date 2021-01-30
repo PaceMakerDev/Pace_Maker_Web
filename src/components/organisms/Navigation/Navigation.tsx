@@ -1,45 +1,34 @@
 import { StyledNavigation } from './Navigation.styled';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { Link, useHistory } from 'react-router-dom';
 
 const Navigation: React.FC = () => {
-  const router = useRouter();
+  const history = useHistory();
   const logout = () => {
     localStorage.removeItem('accessKey');
-    router.push('/');
+    history.push('/');
   };
   return (
     <StyledNavigation>
       <ul>
         <li>
-          <Link href="/mystudy">
-            <a>홈</a>
-          </Link>
+          <Link to="/mystudy">홈</Link>
         </li>
         <li>
-          <Link href="/mystudy">
-            <a>스터디 찾기</a>
-          </Link>
+          <Link to="/mystudy">스터디 찾기</Link>
         </li>
         <li>
-          <Link href="/mystudy">
-            <a>내 스터디</a>
-          </Link>
+          <Link to="/mystudy">내 스터디</Link>
         </li>
         <li>
-          <Link href="/mystudy">
-            <a>통계 보기</a>
-          </Link>
+          <Link to="/mystudy">통계 보기</Link>
         </li>
         <li>
-          <Link href="/mystudy">
-            <a>내 정보</a>
-          </Link>
+          <Link to="/mystudy">내 정보</Link>
         </li>
         <li>
-          <a className="logout" onClick={logout}>
+          <Link to="#" className="logout" onClick={logout}>
             로그아웃
-          </a>
+          </Link>
         </li>
       </ul>
     </StyledNavigation>

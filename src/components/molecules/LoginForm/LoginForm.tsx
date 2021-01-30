@@ -1,12 +1,12 @@
+import { useHistory } from 'react-router-dom';
 import { StyledLoginForm } from './LoginFrom.styled';
 import { EmailInput, PasswordInput } from 'components/atoms/Input/Input';
 import { FullFillButton } from 'components/atoms/Button/Button';
 import axios from 'axios';
-import { useInput } from 'hook/useInput';
-import { useRouter } from 'next/router';
+import { useInput } from 'hooks/useInput';
 
 const LoginForm: React.FC = () => {
-  const router = useRouter();
+  const history = useHistory();
   const [inputs, handleInputs, resetInputs] = useInput<LoginInput>({ email: '', password: '' });
   const { email, password } = inputs;
 
@@ -19,7 +19,7 @@ const LoginForm: React.FC = () => {
         password,
       });
       localStorage.setItem('accessKey', result.data.accessToken);
-      router.push('/mystudy');
+      history.push('/mystudy');
     } catch (err) {
       if (err.response.status === 404) {
         alert('이메일 혹은 비밀번호가 틀렸습니다');
@@ -38,7 +38,13 @@ const LoginForm: React.FC = () => {
       </div>
       <div className="inputbox">
         <label>비밀번호</label>
-        <PasswordInput name="password" value={password} required placeholder="비밀번호 (최소 8자리)" onChange={handleInputs} />
+        <PasswordInput
+          name="password"
+          value={password}
+          required
+          placeholder="비밀번호 (최소 8자리)"
+          onChange={handleInputs}
+        />
       </div>
       <FullFillButton primary>로그인</FullFillButton>
     </StyledLoginForm>

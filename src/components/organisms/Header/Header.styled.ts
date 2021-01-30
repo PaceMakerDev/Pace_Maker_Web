@@ -29,10 +29,14 @@ export const StyledMenuWrapper = styled.div`
   }
 `;
 
-export const StyledMenu = styled.a`
+export const StyledMenu = styled.span`
   margin-left: 1.85rem;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: #0ebeaf;
+
+  a {
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #0ebeaf;
+    cursor: pointer;
+  }
 `;

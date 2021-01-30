@@ -1,6 +1,14 @@
 import { InputWrapper, StyledInput, StyledUnderbar } from './Inputs.styled';
 
-export const TextInput: React.FC<InputProps> = props => {
+interface Props {
+  value?: string;
+  name?: string;
+  placeholder?: string;
+  required?: boolean;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export const TextInput: React.FC<Props> = props => {
   return (
     <InputWrapper>
       <StyledInput type="text" {...props} />
@@ -9,7 +17,7 @@ export const TextInput: React.FC<InputProps> = props => {
   );
 };
 
-export const EmailInput: React.FC<InputProps> = props => {
+export const EmailInput: React.FC<Props> = props => {
   return (
     <InputWrapper>
       <StyledInput type="email" {...props} />
@@ -18,7 +26,7 @@ export const EmailInput: React.FC<InputProps> = props => {
   );
 };
 
-export const PasswordInput: React.FC<InputProps> = props => {
+export const PasswordInput: React.FC<Props> = props => {
   return (
     <InputWrapper>
       <StyledInput type="password" {...props} />
@@ -27,7 +35,7 @@ export const PasswordInput: React.FC<InputProps> = props => {
   );
 };
 
-export const NumberInput: React.FC<InputProps> = props => {
+export const NumberInput: React.FC<Props> = props => {
   return (
     <InputWrapper>
       <StyledInput type="number" {...props} />
