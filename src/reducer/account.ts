@@ -1,7 +1,13 @@
 import { LOG_IN, LOG_OUT } from 'action/account';
 
-const getUser = () => {
-  // get user info from axios
+const getUser = (): User | null => {
+  const user = localStorage.getItem('user');
+
+  if (user) {
+    return JSON.parse(user);
+  } else {
+    return null;
+  }
 };
 
 const getAccessKey = (): string => {

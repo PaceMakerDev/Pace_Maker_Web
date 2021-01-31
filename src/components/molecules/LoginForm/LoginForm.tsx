@@ -22,6 +22,7 @@ const LoginForm: React.FC = () => {
         password,
       });
       localStorage.setItem('accessKey', result.data.accessToken);
+      localStorage.setItem('user', JSON.stringify(result.data.user));
       dispatch(logIn());
       history.push('/mystudy');
     } catch (err) {

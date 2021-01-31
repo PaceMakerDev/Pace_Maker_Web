@@ -10,6 +10,13 @@ interface LoginInput {
 
 interface AccountState {
   isLogin: boolean;
-  getUser?: () => void;
-  getAccessKey?: () => string;
+  getUser: () => User | null;
+  getAccessKey: () => string;
+}
+
+interface User {
+  id: number;
+  name: string;
+  major: string;
+  email: string;
 }
