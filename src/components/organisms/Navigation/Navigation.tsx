@@ -8,6 +8,7 @@ const Navigation: React.FC = () => {
   const dispatch = useDispatch();
   const logout = () => {
     localStorage.removeItem('accessKey');
+    localStorage.removeItem('user');
     dispatch(logOut());
     history.push('/');
   };
