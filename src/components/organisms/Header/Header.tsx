@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { StyledHeader, StyledMenuWrapper, StyledMenu } from './Header.styled';
 import { FaBell } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
 
 interface Props {
   menu?: Array<Menu>;
@@ -8,9 +10,11 @@ interface Props {
 }
 
 const Header: React.FC<Props> = ({ menu, bell }) => {
+  const account = useSelector((state: RootState) => state.account);
+  const { isLogin } = account;
   return (
     <StyledHeader>
-      <Link to="/">
+      <Link to={isLogin ? '/mystudy' : '/'}>
         <img className="logo" src="/images/ssutudy_long_logo.png" alt="header_logo" />
       </Link>
       <StyledMenuWrapper>

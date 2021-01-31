@@ -4,9 +4,12 @@ import { EmailInput, PasswordInput } from 'components/atoms/Input/Input';
 import { FullFillButton } from 'components/atoms/Button/Button';
 import axios from 'axios';
 import { useInput } from 'hooks/useInput';
+import { useDispatch } from 'react-redux';
+import { logIn } from 'action/account';
 
 const LoginForm: React.FC = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [inputs, handleInputs, resetInputs] = useInput<LoginInput>({ email: '', password: '' });
   const { email, password } = inputs;
 
@@ -19,6 +22,7 @@ const LoginForm: React.FC = () => {
         password,
       });
       localStorage.setItem('accessKey', result.data.accessToken);
+      dispatch(logIn());
       history.push('/mystudy');
     } catch (err) {
       if (err.response.status === 404) {

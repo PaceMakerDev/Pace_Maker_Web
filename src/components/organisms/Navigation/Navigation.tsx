@@ -1,10 +1,14 @@
 import { StyledNavigation } from './Navigation.styled';
 import { Link, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logOut } from 'action/account';
 
 const Navigation: React.FC = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const logout = () => {
     localStorage.removeItem('accessKey');
+    dispatch(logOut());
     history.push('/');
   };
   return (
