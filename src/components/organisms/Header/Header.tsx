@@ -11,7 +11,9 @@ interface Props {
 
 const Header: React.FC<Props> = ({ menu, bell }) => {
   const account = useSelector((state: RootState) => state.account);
-  const { isLogin } = account;
+  const { isLogin, getUser } = account;
+  const user = getUser();
+
   return (
     <StyledHeader>
       <Link to={isLogin ? '/mystudy' : '/'}>
@@ -24,6 +26,7 @@ const Header: React.FC<Props> = ({ menu, bell }) => {
               <Link to={item.link}>{item.name}</Link>
             </StyledMenu>
           ))}
+        {user && <p>{user.name}님, 환영합니다</p>}
         {bell && <FaBell />}
       </StyledMenuWrapper>
     </StyledHeader>

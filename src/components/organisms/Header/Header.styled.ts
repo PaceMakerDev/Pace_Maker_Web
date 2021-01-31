@@ -27,6 +27,14 @@ export const StyledMenuWrapper = styled.div`
     font-size: 1.3rem;
     color: #333;
   }
+
+  p {
+    margin-left: 1.85rem;
+    display: inline;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #333;
+  }
 `;
 
 export const StyledMenu = styled.span`
