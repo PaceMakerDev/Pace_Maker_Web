@@ -13,13 +13,14 @@ export const StyledTitleWrapper = styled.div`
   display: flex;
   align-items: center;
 
-  h1 {
+  .card-title {
+    margin-right: 1.5rem;
     font-weight: 700;
     font-size: 1.2rem;
   }
 
   span {
-    margin-left: 1.5rem;
+    margin-left: 0.2rem;
     font-size: 0.85rem;
   }
 `;
