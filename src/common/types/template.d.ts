@@ -3,3 +3,7 @@ interface IndexTemplateProps {
   login: React.ReactNode;
   description: React.ReactNode;
 }
+
+interface MystudyTemplateProps {
+  mystudyList: Array<React.ReactNode>;
+}
