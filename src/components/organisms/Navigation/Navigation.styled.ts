@@ -8,6 +8,7 @@ export const StyledNavigation = styled.nav`
   position: fixed;
   left: 0;
   background-color: #0ebeaf;
+  box-sizing: border-box;
 
   ul {
     margin-top: 3rem;
