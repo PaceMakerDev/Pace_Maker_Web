@@ -6,6 +6,12 @@ export const StyledStudyCard = styled.div`
   border-radius: 10px;
   background-color: #f5f5f5;
   box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+  cursor: pointer;
+  transition: transform 0.3s;
+
+  &:hover {
+    transform: scale(0.98);
+  }
 `;
 
 export const StyledTitleWrapper = styled.div`

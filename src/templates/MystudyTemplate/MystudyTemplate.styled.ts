@@ -2,12 +2,6 @@ import styled from 'styled-components';
 
 export const StyledMystudyTemplate = styled.div`
   padding: 3rem;
-
-  .title {
-    margin-bottom: 2.7rem;
-    font-weight: 700;
-    font-size: 2rem;
-  }
 `;
 
 export const StyledStudyListSection = styled.section`
@@ -40,4 +34,10 @@ export const StyledTotalStudySection = styled.section`
 export const StyledWeekStudySection = styled.section`
   margin: 1.5rem 0;
   background-color: cornflowerblue;
+`;
+
+export const StyledTitle = styled.h1`
+  margin-bottom: 2.7rem;
+  font-weight: 700;
+  font-size: 2rem;
 `;
