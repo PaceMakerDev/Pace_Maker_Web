@@ -10,7 +10,9 @@ export const StyledHeaderSection = styled.header`
   margin-bottom: 2.5rem;
 `;
 
-export const StyledLoginFormSection = styled.section``;
+export const StyledLoginFormSection = styled.section`
+  padding: 0 5rem;
+`;
 
 export const StyledForgotSection = styled.section`
   width: 100%;
