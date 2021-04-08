@@ -1,2 +1,0 @@
-export const HEADER_HEIGHT = 72;
-export const NAVIGATION_WIDTH = 240;
