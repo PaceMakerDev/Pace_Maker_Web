@@ -35,4 +35,4 @@ const LoginForm: React.FC = () => {
   );
 };
 
-export default LoginForm;
+export default React.memo(LoginForm);

@@ -10,4 +10,4 @@ interface Props {
 
 const Header: React.FC<Props> = ({ children, ...props }: Props) => <StyledHeader {...props}>{children}</StyledHeader>;
 
-export default Header;
+export default React.memo(Header);

@@ -15,4 +15,4 @@ interface Props {
 
 const RadiusInput: React.FC<Props> = ({ ...props }) => <StyledRadiusInput {...props} />;
 
-export default RadiusInput;
+export default React.memo(RadiusInput);
