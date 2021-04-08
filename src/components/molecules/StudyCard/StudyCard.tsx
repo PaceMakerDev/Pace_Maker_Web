@@ -20,8 +20,8 @@ const StudyCard: React.FC<Props> = ({ title, participant, tags, beginTime }) => 
 
       <StyledTagTimeWrapper>
         <div className="tag-box">
-          {tags.map(tag => (
-            <span>{tag}</span>
+          {tags.map((tag, idx) => (
+            <span key={idx}>{tag}</span>
           ))}
         </div>
 

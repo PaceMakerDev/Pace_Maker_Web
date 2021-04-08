@@ -7,3 +7,7 @@ interface IndexTemplateProps {
 interface MystudyTemplateProps {
   mystudyList: Array<React.ReactNode>;
 }
+
+interface ClassListTemplateProps {
+  mystudyList: Array<React.ReactNode>;
+}
