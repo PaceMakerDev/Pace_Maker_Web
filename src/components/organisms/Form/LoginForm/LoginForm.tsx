@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { message } from 'antd';
 import FullButton from 'components/atoms/Button/FullButton/FullButton';
 import RadiusInput from 'components/atoms/Input/RadiusInput/RadiusInput';
 import { StyledInputWrapper } from './LoginForm.styled';
@@ -21,6 +22,7 @@ const LoginForm: React.FC = () => {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = event => {
     event.preventDefault();
 
+    message.warning({ content: '아직 준비중입니다', duration: 2 });
     // write login code ...
   };
 
