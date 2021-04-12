@@ -11,7 +11,11 @@ export const StyledHeaderSection = styled.header`
 `;
 
 export const StyledLoginFormSection = styled.section`
-  padding: 0 5rem;
+  margin: 0 5rem;
+
+  @media (max-width: 769px) {
+    margin: 0 10vw;
+  }
 `;
 
 export const StyledForgotSection = styled.section`

@@ -4,6 +4,10 @@ export const StyledHomeTemplate = styled.div`
   height: 100vh;
   padding: 3rem 0;
   position: relative;
+
+  @media (max-width: 769px) {
+    margin: 0 10vw;
+  }
 `;
 
 export const StyledLogoSection = styled.section`
