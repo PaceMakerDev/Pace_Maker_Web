@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledBackHeader = styled.div`
+export const StyledBackHeader = styled.header`
   position: relative;
 `;
 
