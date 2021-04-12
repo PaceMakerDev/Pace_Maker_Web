@@ -17,5 +17,6 @@ export const StyledLoginFormSection = styled.section`
 export const StyledForgotSection = styled.section`
   width: 100%;
   position: absolute;
-  bottom: 0;
+  bottom: 30px;
+  text-align: center;
 `;
