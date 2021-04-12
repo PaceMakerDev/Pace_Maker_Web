@@ -1,5 +1,4 @@
 .eslintrc.js
-*.html
 *.css
 README.md
 tsconfig.json
