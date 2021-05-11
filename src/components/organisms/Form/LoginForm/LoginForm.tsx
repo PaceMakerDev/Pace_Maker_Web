@@ -5,14 +5,17 @@ import sha256 from 'crypto-js/sha256';
 import { useAppDispatch } from 'common/reduxhooks';
 import FullButton from 'components/atoms/Button/FullButton/FullButton';
 import RadiusInput from 'components/atoms/Input/RadiusInput/RadiusInput';
+import ErrorMessage from 'components/atoms/Message/ErrorMessage/ErrorMessage';
 import { setLogin } from 'actions/auth';
 import { SigninApi } from 'State';
 import { API_SERVER_ADDRESS } from 'common/constants';
-import { StyledInputWrapper } from './LoginForm.styled';
+import { StyledInputWrapper, StyledErrorBox } from './LoginForm.styled';
 
 const LoginForm: React.FC = () => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
+  const [isAuthIncorrect, setIsAuthIncorrect] = useState(false);
+  const [isShakeMessage, setIsShakeMessage] = useState(false);
   const dispath = useAppDispatch();
   const history = useHistory();
 
@@ -28,23 +31,36 @@ const LoginForm: React.FC = () => {
   }, []);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async event => {
-    event.preventDefault();
+    try {
+      event.preventDefault();
 
-    const body: SigninApi = {
-      userId: id,
-      password: sha256(password).toString(),
-    };
+      const body: SigninApi = {
+        userId: id,
+        password: sha256(password).toString(),
+      };
 
-    const response = await axios.post(`${API_SERVER_ADDRESS}/auth/signin`, body);
-    const {
-      data: {
-        data: { accessToken, refreshToken },
-      },
-    } = response;
+      const response = await axios.post(`${API_SERVER_ADDRESS}/auth/signin`, body);
+      const {
+        data: {
+          data: { accessToken, refreshToken },
+        },
+      } = response;
 
-    saveToken(accessToken, refreshToken);
-    dispath(setLogin());
-    history.push('/');
+      saveToken(accessToken, refreshToken);
+      dispath(setLogin());
+      history.push('/');
+    } catch (error) {
+      const { status } = error.response;
+
+      if (status === 404) {
+        setIsAuthIncorrect(true);
+        setIsShakeMessage(true);
+        setTimeout(() => setIsShakeMessage(false), 400);
+
+        setId('');
+        setPassword('');
+      }
+    }
   };
 
   const saveToken = (accessToken: string, refreshToken: string): void => {
@@ -57,6 +73,11 @@ const LoginForm: React.FC = () => {
       <StyledInputWrapper>
         <RadiusInput name="id" value={id} placeholder="아이디" onChange={handleInput} />
         <RadiusInput name="password" value={password} type="password" placeholder="비밀번호" onChange={handleInput} />
+        <StyledErrorBox>
+          <ErrorMessage visible={isAuthIncorrect} shake={isShakeMessage}>
+            아이디나 비밀번호가 올바르지 않습니다
+          </ErrorMessage>
+        </StyledErrorBox>
       </StyledInputWrapper>
       <FullButton theme="prime">입장</FullButton>
     </form>
