@@ -9,4 +9,12 @@ declare module 'Action' {
     type: 'SET_USER';
     user: User;
   }
+
+  export interface SetLoginAction {
+    type: 'SET_LOGIN';
+  }
+
+  export interface SetLogoutAction {
+    type: 'SET_LOGOUT';
+  }
 }
