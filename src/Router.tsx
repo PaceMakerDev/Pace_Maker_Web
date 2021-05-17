@@ -5,10 +5,10 @@ import Loading from 'Loading';
 import Index from 'pages/Index';
 import Login from 'pages/auth/Login';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { useAppSelector } from 'common/reduxhooks';
 
 interface Props {
   isLoading: boolean;
-  isLogined: boolean;
 }
 
 interface SubProps {
@@ -33,12 +33,16 @@ const PageRouter: React.FC<SubProps> = ({ isLogined }: SubProps) =>
     </Switch>
   );
 
-const Router: React.FC<Props> = ({ isLoading, isLogined }: Props) => (
-  <BrowserRouter>
-    <Background />
+const Router: React.FC<Props> = ({ isLoading }: Props) => {
+  const authStore = useAppSelector(state => state.authReducer);
 
-    <MobileLayout>{isLoading ? <Loading /> : <PageRouter isLogined={isLogined} />}</MobileLayout>
-  </BrowserRouter>
-);
+  return (
+    <BrowserRouter>
+      <Background />
+
+      <MobileLayout>{isLoading ? <Loading /> : <PageRouter isLogined={authStore.isLogined} />}</MobileLayout>
+    </BrowserRouter>
+  );
+};
 
 export default Router;
