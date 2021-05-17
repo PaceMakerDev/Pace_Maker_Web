@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { useAppDispatch } from 'common/reduxhooks';
@@ -15,6 +15,9 @@ const LoginForm: React.FC = () => {
   const [password, setPassword] = useState('');
   const [isAuthIncorrect, setIsAuthIncorrect] = useState(false);
   const [isShakeMessage, setIsShakeMessage] = useState(false);
+
+  const emailInputRef = useRef<HTMLInputElement>(null);
+
   const dispath = useAppDispatch();
   const history = useHistory();
 
@@ -56,8 +59,7 @@ const LoginForm: React.FC = () => {
         setIsShakeMessage(true);
         setTimeout(() => setIsShakeMessage(false), 400);
 
-        setEmail('');
-        setPassword('');
+        emailInputRef.current?.focus();
       }
     }
   };
@@ -70,7 +72,7 @@ const LoginForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit}>
       <StyledInputWrapper>
-        <RadiusInput name="email" value={email} placeholder="이메일" onChange={handleInput} />
+        <RadiusInput name="email" value={email} placeholder="이메일" _ref={emailInputRef} onChange={handleInput} />
         <RadiusInput name="password" value={password} type="password" placeholder="비밀번호" onChange={handleInput} />
         <StyledErrorBox>
           <ErrorMessage visible={isAuthIncorrect} shake={isShakeMessage}>
