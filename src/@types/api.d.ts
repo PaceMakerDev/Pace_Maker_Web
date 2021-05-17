@@ -1,6 +1,6 @@
 declare module 'State' {
   export interface SigninApi {
-    userId: string;
+    email: string;
     password: string;
   }
 }

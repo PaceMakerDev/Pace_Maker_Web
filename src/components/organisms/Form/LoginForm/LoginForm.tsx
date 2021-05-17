@@ -11,7 +11,7 @@ import { API_SERVER_ADDRESS } from 'common/constants';
 import { StyledInputWrapper, StyledErrorBox } from './LoginForm.styled';
 
 const LoginForm: React.FC = () => {
-  const [id, setId] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isAuthIncorrect, setIsAuthIncorrect] = useState(false);
   const [isShakeMessage, setIsShakeMessage] = useState(false);
@@ -21,8 +21,8 @@ const LoginForm: React.FC = () => {
   const handleInput: React.ChangeEventHandler<HTMLInputElement> = useCallback(event => {
     const { name, value } = event.target;
 
-    if (name === 'id') {
-      setId(value);
+    if (name === 'email') {
+      setEmail(value);
     }
     if (name === 'password') {
       setPassword(value);
@@ -34,7 +34,7 @@ const LoginForm: React.FC = () => {
       event.preventDefault();
 
       const body: SigninApi = {
-        userId: id,
+        email,
         password,
       };
 
@@ -56,7 +56,7 @@ const LoginForm: React.FC = () => {
         setIsShakeMessage(true);
         setTimeout(() => setIsShakeMessage(false), 400);
 
-        setId('');
+        setEmail('');
         setPassword('');
       }
     }
@@ -70,11 +70,11 @@ const LoginForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit}>
       <StyledInputWrapper>
-        <RadiusInput name="id" value={id} placeholder="아이디" onChange={handleInput} />
+        <RadiusInput name="email" value={email} placeholder="이메일" onChange={handleInput} />
         <RadiusInput name="password" value={password} type="password" placeholder="비밀번호" onChange={handleInput} />
         <StyledErrorBox>
           <ErrorMessage visible={isAuthIncorrect} shake={isShakeMessage}>
-            아이디나 비밀번호가 올바르지 않습니다
+            이메일이나 비밀번호가 올바르지 않습니다
           </ErrorMessage>
         </StyledErrorBox>
       </StyledInputWrapper>
