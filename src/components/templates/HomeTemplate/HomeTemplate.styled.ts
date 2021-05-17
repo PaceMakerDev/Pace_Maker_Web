@@ -11,7 +11,8 @@ export const StyledHomeTemplate = styled.div`
 `;
 
 export const StyledLogoSection = styled.section`
-  margin-top: 1rem;
+  margin-top: 3rem;
+  text-align: center;
 `;
 
 export const StyledAuthSection = styled.section`

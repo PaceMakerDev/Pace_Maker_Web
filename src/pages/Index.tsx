@@ -11,7 +11,7 @@ const Index: React.FC = () => {
 
   return (
     <HomeTemplate
-      logoSection={<Image src={logo} alt="logo" width="350px" />}
+      logoSection={<Image src={logo} alt="logo" width="300px" />}
       authSection={
         <>
           <FullButton theme="prime" onClick={() => history.push('/auth/login')}>
