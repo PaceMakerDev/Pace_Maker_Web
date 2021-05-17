@@ -1,10 +1,14 @@
 import React from 'react';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Background from 'Background';
 import MobileLayout from 'layout/MobileLayout/MobileLayout';
 import Loading from 'Loading';
 import Index from 'pages/Index';
 import Login from 'pages/auth/Login';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import MyStudy from 'pages/MyStudy';
+import StudyLeague from 'pages/StudyLeague';
+import FindStudy from 'pages/FindStudy';
+import MyPage from 'pages/MyPage';
 import { useAppSelector } from 'common/reduxhooks';
 
 interface Props {
@@ -19,7 +23,19 @@ const PageRouter: React.FC<SubProps> = ({ isLogined }: SubProps) =>
   isLogined ? (
     <Switch>
       <Route exact path="/">
-        <div />
+        <Redirect to='/mystudy' />
+      </Route>
+      <Route path="/mystudy">
+        <MyStudy />
+      </Route>
+      <Route path="/studyleague">
+        <StudyLeague />
+      </Route>
+      <Route path="/findstudy">
+        <FindStudy />
+      </Route>
+      <Route path="/mypage">
+        <MyPage />
       </Route>
     </Switch>
   ) : (
