@@ -1,7 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import sha256 from 'crypto-js/sha256';
 import { useAppDispatch } from 'common/reduxhooks';
 import FullButton from 'components/atoms/Button/FullButton/FullButton';
 import RadiusInput from 'components/atoms/Input/RadiusInput/RadiusInput';
@@ -36,7 +35,7 @@ const LoginForm: React.FC = () => {
 
       const body: SigninApi = {
         userId: id,
-        password: sha256(password).toString(),
+        password,
       };
 
       const response = await axios.post(`${API_SERVER_ADDRESS}/auth/signin`, body);
