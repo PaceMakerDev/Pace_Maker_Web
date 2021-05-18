@@ -9,6 +9,8 @@ import MyStudy from 'pages/MyStudy';
 import StudyLeague from 'pages/StudyLeague';
 import FindStudy from 'pages/FindStudy';
 import MyPage from 'pages/MyPage';
+import FindEmail from 'pages/auth/FindEmail';
+import FindPassword from 'pages/auth/FindPassword';
 import { useAppSelector } from 'common/reduxhooks';
 
 interface Props {
@@ -34,7 +36,7 @@ const PageRouter: React.FC<SubProps> = ({ isLogined }: SubProps) =>
       <Route path="/mypage">
         <MyPage />
       </Route>
-      <Redirect to='/mystudy' />
+      <Redirect to="/mystudy" />
     </Switch>
   ) : (
     <Switch>
@@ -44,7 +46,13 @@ const PageRouter: React.FC<SubProps> = ({ isLogined }: SubProps) =>
       <Route exact path="/auth/login">
         <Login />
       </Route>
-      <Redirect to='/' />
+      <Route exact path="/auth/findemail">
+        <FindEmail />
+      </Route>
+      <Route exact path="/auth/findpassword">
+        <FindPassword />
+      </Route>
+      <Redirect to="/" />
     </Switch>
   );
 
