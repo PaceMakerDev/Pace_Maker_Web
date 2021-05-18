@@ -72,8 +72,8 @@ const LoginForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit}>
       <StyledInputWrapper>
-        <RadiusInput name="email" value={email} placeholder="이메일" _ref={emailInputRef} onChange={handleInput} />
-        <RadiusInput name="password" value={password} type="password" placeholder="비밀번호" onChange={handleInput} />
+        <RadiusInput name="email" value={email} placeholder="이메일" required _ref={emailInputRef} onChange={handleInput} />
+        <RadiusInput name="password" value={password} type="password" placeholder="비밀번호" required onChange={handleInput} />
         <StyledErrorBox>
           <ErrorMessage visible={isAuthIncorrect} shake={isShakeMessage}>
             이메일이나 비밀번호가 올바르지 않습니다
