@@ -22,9 +22,6 @@ interface SubProps {
 const PageRouter: React.FC<SubProps> = ({ isLogined }: SubProps) =>
   isLogined ? (
     <Switch>
-      <Route exact path="/">
-        <Redirect to='/mystudy' />
-      </Route>
       <Route path="/mystudy">
         <MyStudy />
       </Route>
@@ -37,6 +34,7 @@ const PageRouter: React.FC<SubProps> = ({ isLogined }: SubProps) =>
       <Route path="/mypage">
         <MyPage />
       </Route>
+      <Redirect to='/mystudy' />
     </Switch>
   ) : (
     <Switch>
@@ -46,6 +44,7 @@ const PageRouter: React.FC<SubProps> = ({ isLogined }: SubProps) =>
       <Route exact path="/auth/login">
         <Login />
       </Route>
+      <Redirect to='/' />
     </Switch>
   );
 
