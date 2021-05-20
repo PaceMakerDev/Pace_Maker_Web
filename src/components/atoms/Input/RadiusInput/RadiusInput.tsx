@@ -10,9 +10,10 @@ interface Props {
   readOnly?: boolean;
   required?: boolean;
   disabled?: boolean;
+  _ref?: React.RefObject<HTMLInputElement> | null;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-const RadiusInput: React.FC<Props> = ({ ...props }) => <StyledRadiusInput {...props} />;
+const RadiusInput: React.FC<Props> = ({ _ref, ...props }: Props) => <StyledRadiusInput {...props} ref={_ref} />;
 
 export default React.memo(RadiusInput);

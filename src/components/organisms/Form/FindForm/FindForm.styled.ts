@@ -12,3 +12,7 @@ export const StyledErrorBox = styled.div`
   margin: 0.5rem 0;
   padding-left: 0.3rem;
 `;
+
+export const StyledFindMessageWrapper = styled.div`
+  text-align: center;
+`;
