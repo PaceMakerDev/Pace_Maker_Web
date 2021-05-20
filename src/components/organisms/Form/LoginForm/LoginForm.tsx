@@ -6,7 +6,7 @@ import FullButton from 'components/atoms/Button/FullButton/FullButton';
 import RadiusInput from 'components/atoms/Input/RadiusInput/RadiusInput';
 import ErrorMessage from 'components/atoms/Message/ErrorMessage/ErrorMessage';
 import { setLogin } from 'actions/auth';
-import { SigninApi } from 'State';
+import { SigninApi } from 'Api';
 import { API_SERVER_ADDRESS } from 'common/constants';
 import { StyledInputWrapper, StyledErrorBox } from './LoginForm.styled';
 
@@ -60,6 +60,8 @@ const LoginForm: React.FC = () => {
         setTimeout(() => setIsShakeMessage(false), 400);
 
         emailInputRef.current?.focus();
+      } else {
+        alert(`ErrorCode: ${status}`);
       }
     }
   };
