@@ -42,6 +42,7 @@ const App: React.FC = () => {
     };
 
     handleAuth();
+    alert('deploy test!!');
   }, [history, dispath]);
   return <Router isLoading={isLoading} />;
 };
