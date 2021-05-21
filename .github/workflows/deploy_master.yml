@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: checkout github source code
-        uses: actions/checkout@master
+        uses: actions/checkout@v2
       
       - name: cache node modules
         uses: actions/cache@v2
