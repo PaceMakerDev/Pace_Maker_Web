@@ -27,7 +27,7 @@ jobs:
         run : npm run build
       
       - name: deliver build files to server
-        uses: appleboy/scp-action@dev
+        uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
@@ -37,7 +37,7 @@ jobs:
           target: "/root/react"
       
       - name: nginx reload
-        uses: appleboy/ssh-action@dev
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
