@@ -9,7 +9,8 @@ import Join from 'pages/auth/Join';
 import MyStudy from 'pages/MyStudy';
 import StudyLeague from 'pages/StudyLeague';
 import FindStudy from 'pages/FindStudy';
-import MyPage from 'pages/MyPage';
+import MyPage from 'pages/MyPage/index';
+import EditPassword from 'pages/MyPage/EditPassword';
 import FindEmail from 'pages/auth/FindEmail';
 import FindPassword from 'pages/auth/FindPassword';
 import { useAppSelector } from 'common/reduxhooks';
@@ -33,6 +34,9 @@ const PageRouter: React.FC<SubProps> = ({ isLogined }: SubProps) =>
       </Route>
       <Route path="/findstudy">
         <FindStudy />
+      </Route>
+      <Route path="/mypage/editpassword">
+        <EditPassword />
       </Route>
       <Route path="/mypage">
         <MyPage />

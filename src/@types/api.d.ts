@@ -13,4 +13,13 @@ declare module 'Api' {
     name: string;
     email: string;
   }
+
+  export interface EditPasswordApi {
+    originalPassword: string;
+    newPassword: string;
+  }
+
+  export interface TokenHeaderApi {
+    Authorization: string;
+  }
 }

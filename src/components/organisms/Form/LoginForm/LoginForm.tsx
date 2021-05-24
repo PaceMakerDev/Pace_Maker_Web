@@ -5,7 +5,7 @@ import { useAppDispatch } from 'common/reduxhooks';
 import FullButton from 'components/atoms/Button/FullButton/FullButton';
 import RadiusInput from 'components/atoms/Input/RadiusInput/RadiusInput';
 import ErrorMessage from 'components/atoms/Message/ErrorMessage/ErrorMessage';
-import { setLogin } from 'actions/auth';
+import { setLogin, setUser } from 'actions/auth';
 import { SigninApi } from 'Api';
 import { API_SERVER_ADDRESS } from 'common/constants';
 import { StyledInputWrapper, StyledErrorBox } from './LoginForm.styled';
@@ -46,13 +46,14 @@ const LoginForm: React.FC = () => {
       const response = await axios.post(`${API_SERVER_ADDRESS}/auth/signin`, body);
       const {
         data: {
-          data: { accessToken, refreshToken, shouldChangePassword },
+          data: { accessToken, refreshToken, shouldChangePassword, user },
         },
       } = response;
 
       saveToken(accessToken, refreshToken);
       setLoading(false);
       dispath(setLogin());
+      dispath(setUser(user));
       routeNextPage(shouldChangePassword);
     } catch (error) {
       const { status } = error.response;
@@ -73,12 +74,11 @@ const LoginForm: React.FC = () => {
 
   const routeNextPage = (shouldChangePassword: boolean) => {
     if (shouldChangePassword) {
-      alert('비밀번호를 변경하셨군요!!\n비밀번호 변경페이지로 이동해야하는데\n귀찮아서 아직 안만들었어요\n마이 페이지 들가서 직접 바꾸세요! ㅈㅅ');
-      // write push code
+      history.push('/mypage/editpassword');
     } else {
       history.push('/mystudy');
     }
-  }
+  };
 
   const saveToken = (accessToken: string, refreshToken: string): void => {
     localStorage.setItem('ACCESS_TOKEN', accessToken);
@@ -88,15 +88,31 @@ const LoginForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit}>
       <StyledInputWrapper>
-        <RadiusInput name="email" value={email} placeholder="이메일" required _ref={emailInputRef} onChange={handleInput} />
-        <RadiusInput name="password" value={password} type="password" placeholder="비밀번호" required onChange={handleInput} />
+        <RadiusInput
+          name="email"
+          value={email}
+          placeholder="이메일"
+          required
+          _ref={emailInputRef}
+          onChange={handleInput}
+        />
+        <RadiusInput
+          name="password"
+          value={password}
+          type="password"
+          placeholder="비밀번호"
+          required
+          onChange={handleInput}
+        />
         <StyledErrorBox>
           <ErrorMessage visible={isAuthIncorrect} shake={isShakeMessage}>
             이메일이나 비밀번호가 올바르지 않습니다
           </ErrorMessage>
         </StyledErrorBox>
       </StyledInputWrapper>
-      <FullButton theme="prime" loading={loading} disabled={loading}>입장</FullButton>
+      <FullButton theme="prime" loading={loading} disabled={loading}>
+        입장
+      </FullButton>
     </form>
   );
 };

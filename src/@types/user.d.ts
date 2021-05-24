@@ -1,9 +1,6 @@
 declare module 'User' {
   export interface User {
+    id: number;
     name: string;
-    major: string;
-    studentId: string;
-    email: string;
-    status: string;
   }
 }
