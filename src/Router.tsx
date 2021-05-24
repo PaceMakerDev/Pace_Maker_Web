@@ -5,6 +5,7 @@ import MobileLayout from 'layout/MobileLayout/MobileLayout';
 import Loading from 'Loading';
 import Index from 'pages/Index';
 import Login from 'pages/auth/Login';
+import Join from 'pages/auth/Join';
 import MyStudy from 'pages/MyStudy';
 import StudyLeague from 'pages/StudyLeague';
 import FindStudy from 'pages/FindStudy';
@@ -45,6 +46,9 @@ const PageRouter: React.FC<SubProps> = ({ isLogined }: SubProps) =>
       </Route>
       <Route exact path="/auth/login">
         <Login />
+      </Route>
+      <Route exact path="/auth/join">
+        <Join />
       </Route>
       <Route exact path="/auth/findemail">
         <FindEmail />
