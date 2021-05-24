@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Background from 'Background';
 import MobileLayout from 'layout/MobileLayout/MobileLayout';
-import Loading from 'Loading';
+import LoadingPaper from 'LoadingPaper';
 import Index from 'pages/Index';
 import Login from 'pages/auth/Login';
 import Join from 'pages/auth/Join';
@@ -67,7 +67,7 @@ const Router: React.FC<Props> = ({ isLoading }: Props) => {
     <BrowserRouter>
       <Background />
 
-      <MobileLayout>{isLoading ? <Loading /> : <PageRouter isLogined={authStore.isLogined} />}</MobileLayout>
+      <MobileLayout>{isLoading ? <LoadingPaper /> : <PageRouter isLogined={authStore.isLogined} />}</MobileLayout>
     </BrowserRouter>
   );
 };

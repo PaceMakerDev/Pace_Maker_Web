@@ -16,6 +16,7 @@ const FindForm: React.FC<Props> = ({ type }: Props) => {
   const [userName, setName] = useState('');
   const [studentId, setStudentId] = useState('');
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
   const [isAuthIncorrect, setIsAuthIncorrect] = useState(false);
   const [isShakeMessage, setIsShakeMessage] = useState(false);
 
@@ -43,6 +44,7 @@ const FindForm: React.FC<Props> = ({ type }: Props) => {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async event => {
     try {
       event.preventDefault();
+      setLoading(true);
 
       const emailBody: EmailFindApi = {
         name: userName,
@@ -65,6 +67,7 @@ const FindForm: React.FC<Props> = ({ type }: Props) => {
       const { data } = response?.data;
       setFindEmail(data.email);
       setIsFindOk(true);
+      setLoading(false);
     } catch (error) {
       const { status } = error.response;
 
@@ -77,6 +80,8 @@ const FindForm: React.FC<Props> = ({ type }: Props) => {
       } else {
         alert(`ErrorCode: ${status}`);
       }
+
+      setLoading(false);
     }
   };
 
@@ -117,8 +122,8 @@ const FindForm: React.FC<Props> = ({ type }: Props) => {
               </ErrorMessage>
             </StyledErrorBox>
           </StyledInputWrapper>
-          {type === 'email' && <FullButton theme="prime">이메일 찾기</FullButton>}
-          {type === 'password' && <FullButton theme="prime">비밀번호 찾기</FullButton>}
+          {type === 'email' && <FullButton theme="prime" loading={loading} disabled={loading}>이메일 찾기</FullButton>}
+          {type === 'password' && <FullButton theme="prime" loading={loading} disabled={loading}>비밀번호 찾기</FullButton>}
         </form>
       )}
     </>

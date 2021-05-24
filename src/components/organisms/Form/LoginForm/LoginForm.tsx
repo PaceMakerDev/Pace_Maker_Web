@@ -13,6 +13,7 @@ import { StyledInputWrapper, StyledErrorBox } from './LoginForm.styled';
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const [isAuthIncorrect, setIsAuthIncorrect] = useState(false);
   const [isShakeMessage, setIsShakeMessage] = useState(false);
 
@@ -35,6 +36,7 @@ const LoginForm: React.FC = () => {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async event => {
     try {
       event.preventDefault();
+      setLoading(true);
 
       const body: SigninApi = {
         email,
@@ -44,13 +46,14 @@ const LoginForm: React.FC = () => {
       const response = await axios.post(`${API_SERVER_ADDRESS}/auth/signin`, body);
       const {
         data: {
-          data: { accessToken, refreshToken },
+          data: { accessToken, refreshToken, shouldChangePassword },
         },
       } = response;
 
       saveToken(accessToken, refreshToken);
+      setLoading(false);
       dispath(setLogin());
-      history.push('/');
+      routeNextPage(shouldChangePassword);
     } catch (error) {
       const { status } = error.response;
 
@@ -63,8 +66,19 @@ const LoginForm: React.FC = () => {
       } else {
         alert(`ErrorCode: ${status}`);
       }
+
+      setLoading(false);
     }
   };
+
+  const routeNextPage = (shouldChangePassword: boolean) => {
+    if (shouldChangePassword) {
+      alert('비밀번호를 변경하셨군요!!\n비밀번호 변경페이지로 이동해야하는데\n귀찮아서 아직 안만들었어요\n마이 페이지 들가서 직접 바꾸세요! ㅈㅅ');
+      // write push code
+    } else {
+      history.push('/mystudy');
+    }
+  }
 
   const saveToken = (accessToken: string, refreshToken: string): void => {
     localStorage.setItem('ACCESS_TOKEN', accessToken);
@@ -82,7 +96,7 @@ const LoginForm: React.FC = () => {
           </ErrorMessage>
         </StyledErrorBox>
       </StyledInputWrapper>
-      <FullButton theme="prime">입장</FullButton>
+      <FullButton theme="prime" loading={loading} disabled={loading}>입장</FullButton>
     </form>
   );
 };
