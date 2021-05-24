@@ -1,9 +1,9 @@
 import BackHeader from 'components/molecules/BackHeader/BackHeader';
-import JoinTemplate from 'components/templates/JoinTemplate/JoinTemplate';
+import AuthTemplate from 'components/templates/AuthTemplate/AuthTemplate';
 import React from 'react';
 
 const Join: React.FC = () => (
-  <JoinTemplate headerSection={<BackHeader>회원가입</BackHeader>} joinFormSection="im join" />
+  <AuthTemplate headerSection={<BackHeader>회원가입</BackHeader>} formSection="im join" />
 );
 
 export default Join;

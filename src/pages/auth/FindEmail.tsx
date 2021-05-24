@@ -1,10 +1,10 @@
 import React from 'react';
-import FindAuthTemplate from 'components/templates/FindAuthTemplate/FindAuthTemplate';
+import AuthTemplate from 'components/templates/AuthTemplate/AuthTemplate';
 import BackHeader from 'components/molecules/BackHeader/BackHeader';
 import FindForm from 'components/organisms/Form/FindForm/FindForm';
 
 const FindEmail: React.FC = () => (
-  <FindAuthTemplate headerSection={<BackHeader>이메일 찾기</BackHeader>} findFormSection={<FindForm type="email" />} />
+  <AuthTemplate headerSection={<BackHeader>이메일 찾기</BackHeader>} formSection={<FindForm type="email" />} />
 );
 
 export default FindEmail;
