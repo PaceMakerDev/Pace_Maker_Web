@@ -29,7 +29,7 @@ export const StyledFullButton = styled.button<{ fontSize?: string; theme?: 'prim
       color: ${PRIME_COLOR_CODE};
 
       &:hover {
-        background-color: #efefef;
+        background-color: #eaeaea;
       }
     `}
 `;
