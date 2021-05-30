@@ -15,7 +15,6 @@ declare module 'Api' {
   }
 
   export interface EditPasswordApi {
-    originalPassword: string;
     newPassword: string;
   }
 

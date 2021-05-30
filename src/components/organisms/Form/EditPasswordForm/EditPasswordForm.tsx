@@ -1,25 +1,27 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import FullButton from 'components/atoms/Button/FullButton/FullButton';
+import PresentId from 'components/molecules/PresetId/PresentId';
 import RadiusInput from 'components/atoms/Input/RadiusInput/RadiusInput';
-import { useAppSelector } from 'common/reduxhooks';
+import ErrorMessage from 'components/atoms/Message/ErrorMessage/ErrorMessage';
 import { EditPasswordApi, TokenHeaderApi } from 'Api';
+import { User } from 'User';
 import { API_SERVER_ADDRESS } from 'common/constants';
 import { StyledInputWrapper, StyledErrorBox } from './EditPasswordForm.styled';
 
 const EditPasswordForm: React.FC = () => {
-  const [originalPassword, setOriginalPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [newPasswordValid, setNewPasswordValid] = useState('');
+  const [isValid, setIsValid] = useState(true);
   const [loading, setLoading] = useState(false);
-  const authStore = useAppSelector(state => state.authReducer);
 
-  const handleInput: React.ChangeEventHandler<HTMLInputElement> = event => {
+  const newPasswordRef = useRef<HTMLInputElement>(null);
+
+  const history = useHistory();
+
+  const handleInput: React.ChangeEventHandler<HTMLInputElement> = useCallback(event => {
     const { value, name } = event.target;
-
-    if (name === 'original-pw') {
-      setOriginalPassword(value);
-    }
 
     if (name === 'new-pw') {
       setNewPassword(value);
@@ -28,28 +30,43 @@ const EditPasswordForm: React.FC = () => {
     if (name === 'new-pw-valid') {
       setNewPasswordValid(value);
     }
-  };
+  }, []);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async event => {
     try {
       event.preventDefault();
+      if (!isValid) {
+        alert('비밀번호가 일치하지 않습니다');
+        newPasswordRef.current?.focus();
+        return;
+      }
       setLoading(true);
 
       const headers: TokenHeaderApi = getTokenHeader();
       const body: EditPasswordApi = {
-        originalPassword,
         newPassword,
       };
+      const user = getUserInfo();
 
-      await axios.patch(`${API_SERVER_ADDRESS}/user/${authStore.user?.id}/password`, body, {
+      await axios.patch(`${API_SERVER_ADDRESS}/user/${user?.id}/password`, body, {
         headers,
       });
       setLoading(false);
+      alert('비밀번호 변경이 완료되었습니다');
+      history.push('/mystudy');
     } catch (error) {
       alert(`Error: ${error.response.status}(${error.response.statusText})`);
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (newPassword === newPasswordValid) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  }, [newPassword, newPasswordValid]);
 
   const getTokenHeader = (): TokenHeaderApi => {
     const accessToken = localStorage.getItem('ACCESS_TOKEN');
@@ -58,20 +75,36 @@ const EditPasswordForm: React.FC = () => {
     };
   };
 
+  const getUserInfo = (): User | null => {
+    const user = localStorage.getItem('user');
+    if (user) {
+      return JSON.parse(user);
+    }
+    return null;
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <StyledInputWrapper>
-        <RadiusInput name="original-pw" value={originalPassword} placeholder="기존 비밀번호" onChange={handleInput} />
-        <br />
-        <br />
-        <RadiusInput name="new-pw" value={newPassword} placeholder="새 비밀번호" onChange={handleInput} />
+        <PresentId userId="test123@test.com" />
+        <RadiusInput
+          name="new-pw"
+          type="password"
+          value={newPassword}
+          placeholder="새 비밀번호"
+          _ref={newPasswordRef}
+          onChange={handleInput}
+        />
         <RadiusInput
           name="new-pw-valid"
+          type="password"
           value={newPasswordValid}
           placeholder="새 비밀번호 확인"
           onChange={handleInput}
         />
-        <StyledErrorBox>error test</StyledErrorBox>
+        <StyledErrorBox>
+          <ErrorMessage visible={!isValid}>비밀번호가 일치하지 않습니다</ErrorMessage>
+        </StyledErrorBox>
       </StyledInputWrapper>
       <FullButton theme="prime" loading={loading} disabled={loading}>
         변경하기
