@@ -7,6 +7,7 @@ import RadiusInput from 'components/atoms/Input/RadiusInput/RadiusInput';
 import ErrorMessage from 'components/atoms/Message/ErrorMessage/ErrorMessage';
 import { setLogin, setUser } from 'actions/auth';
 import { SigninApi } from 'Api';
+import { User } from 'User';
 import { API_SERVER_ADDRESS } from 'common/constants';
 import { StyledInputWrapper, StyledErrorBox } from './LoginForm.styled';
 
@@ -51,7 +52,9 @@ const LoginForm: React.FC = () => {
       } = response;
 
       saveToken(accessToken, refreshToken);
+      saveUserInfo(user);
       setLoading(false);
+      
       dispath(setLogin());
       dispath(setUser(user));
       routeNextPage(shouldChangePassword);
@@ -84,6 +87,10 @@ const LoginForm: React.FC = () => {
     localStorage.setItem('ACCESS_TOKEN', accessToken);
     localStorage.setItem('REFRESH_TOKEN', refreshToken);
   };
+
+  const saveUserInfo = (user: User): void => {
+    localStorage.setItem('user', JSON.stringify(user));
+  }
 
   return (
     <form onSubmit={handleSubmit}>
