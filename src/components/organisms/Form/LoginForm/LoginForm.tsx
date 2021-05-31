@@ -1,12 +1,12 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { useAppDispatch } from 'common/reduxhooks';
 import FullButton from 'components/atoms/Button/FullButton/FullButton';
 import RadiusInput from 'components/atoms/Input/RadiusInput/RadiusInput';
 import ErrorMessage from 'components/atoms/Message/ErrorMessage/ErrorMessage';
 import { setLogin, setUser } from 'actions/auth';
-import { SigninApi } from 'Api';
+import { SigninApi, TokenHeaderApi } from 'Api';
 import { User } from 'User';
 import { API_SERVER_ADDRESS } from 'common/constants';
 import { StyledInputWrapper, StyledErrorBox } from './LoginForm.styled';
@@ -39,27 +39,28 @@ const LoginForm: React.FC = () => {
       event.preventDefault();
       setLoading(true);
 
+      // login //
       const body: SigninApi = {
         email,
         password,
       };
 
-      const response = await axios.post(`${API_SERVER_ADDRESS}/auth/signin`, body);
-      const {
-        data: {
-          data: { accessToken, refreshToken, shouldChangePassword, user },
-        },
-      } = response;
-
+      const loginResponse = await axios.post(`${API_SERVER_ADDRESS}/auth/signin`, body);
+      const [accessToken, refreshToken, shouldChangePassword, userId] = getLoginData(loginResponse);
       saveToken(accessToken, refreshToken);
-      saveUserInfo(user);
-      setLoading(false);
-      
+      saveUserId(userId);
+
+      // get user //
+      const headers: TokenHeaderApi = getTokenHeader();
+
+      const userResponse = await axios.get(`${API_SERVER_ADDRESS}/users/${userId}`, { headers });
+      const user: User = userResponse.data.data;
+
       dispath(setLogin());
       dispath(setUser(user));
       routeNextPage(shouldChangePassword);
     } catch (error) {
-      const { status } = error.response;
+      const { status, statusText } = error.response;
 
       if (status === 404) {
         setIsAuthIncorrect(true);
@@ -68,7 +69,7 @@ const LoginForm: React.FC = () => {
 
         emailInputRef.current?.focus();
       } else {
-        alert(`ErrorCode: ${status}`);
+        alert(`Error: ${status}(${statusText})`);
       }
 
       setLoading(false);
@@ -78,8 +79,6 @@ const LoginForm: React.FC = () => {
   const routeNextPage = (shouldChangePassword: boolean) => {
     if (shouldChangePassword) {
       history.push('/mypage/editpassword');
-    } else {
-      history.push('/mystudy');
     }
   };
 
@@ -88,9 +87,30 @@ const LoginForm: React.FC = () => {
     localStorage.setItem('REFRESH_TOKEN', refreshToken);
   };
 
-  const saveUserInfo = (user: User): void => {
-    localStorage.setItem('user', JSON.stringify(user));
-  }
+  const saveUserId = (id: number): void => {
+    localStorage.setItem('userId', JSON.stringify(id));
+  };
+
+  const getLoginData = (response: AxiosResponse): [string, string, boolean, number] => {
+    const {
+      data: {
+        data: {
+          accessToken,
+          refreshToken,
+          shouldChangePassword,
+          user: { id },
+        },
+      },
+    } = response;
+    return [accessToken, refreshToken, shouldChangePassword, id];
+  };
+
+  const getTokenHeader = (): TokenHeaderApi => {
+    const accessToken: string | null = localStorage.getItem('ACCESS_TOKEN');
+    return {
+      Authorization: `Bearer ${accessToken}`,
+    };
+  };
 
   return (
     <form onSubmit={handleSubmit}>

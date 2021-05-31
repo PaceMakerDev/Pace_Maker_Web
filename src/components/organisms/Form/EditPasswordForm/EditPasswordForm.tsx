@@ -5,8 +5,8 @@ import FullButton from 'components/atoms/Button/FullButton/FullButton';
 import PresentId from 'components/molecules/PresetId/PresentId';
 import RadiusInput from 'components/atoms/Input/RadiusInput/RadiusInput';
 import ErrorMessage from 'components/atoms/Message/ErrorMessage/ErrorMessage';
+import { useAppSelector } from 'common/reduxhooks';
 import { EditPasswordApi, TokenHeaderApi } from 'Api';
-import { User } from 'User';
 import { API_SERVER_ADDRESS } from 'common/constants';
 import { StyledInputWrapper, StyledErrorBox } from './EditPasswordForm.styled';
 
@@ -19,6 +19,7 @@ const EditPasswordForm: React.FC = () => {
   const newPasswordRef = useRef<HTMLInputElement>(null);
 
   const history = useHistory();
+  const { user } = useAppSelector(state => state.authReducer);
 
   const handleInput: React.ChangeEventHandler<HTMLInputElement> = useCallback(event => {
     const { value, name } = event.target;
@@ -46,18 +47,27 @@ const EditPasswordForm: React.FC = () => {
       const body: EditPasswordApi = {
         newPassword,
       };
-      const user = getUserInfo();
 
-      await axios.patch(`${API_SERVER_ADDRESS}/user/${user?.id}/password`, body, {
+      const userId: number | null = getUserId();
+      await axios.patch(`${API_SERVER_ADDRESS}/user/${userId}/password`, body, {
         headers,
       });
       setLoading(false);
       alert('비밀번호 변경이 완료되었습니다');
       history.push('/mystudy');
     } catch (error) {
-      alert(`Error: ${error.response.status}(${error.response.statusText})`);
+      const { status, statusText } = error.response;
+      alert(`Error: ${status}(${statusText})`);
       setLoading(false);
     }
+  };
+
+  const getUserId = (): number | null => {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      return null;
+    }
+    return parseInt(userId, 10);
   };
 
   useEffect(() => {
@@ -75,18 +85,10 @@ const EditPasswordForm: React.FC = () => {
     };
   };
 
-  const getUserInfo = (): User | null => {
-    const user = localStorage.getItem('user');
-    if (user) {
-      return JSON.parse(user);
-    }
-    return null;
-  };
-
   return (
     <form onSubmit={handleSubmit}>
       <StyledInputWrapper>
-        <PresentId userId="test123@test.com" />
+        <PresentId userId={user?.email} />
         <RadiusInput
           name="new-pw"
           type="password"

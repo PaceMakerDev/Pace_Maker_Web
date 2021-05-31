@@ -2,7 +2,7 @@ import React from 'react';
 import { StyledPresetId, StyledLabel, StyledSpan } from './PresentId.styled';
 
 interface Props {
-  userId: string;
+  userId?: string;
 }
 
 const PresentId: React.FC<Props> = ({ userId }: Props) => (
