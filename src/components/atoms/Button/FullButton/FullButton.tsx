@@ -18,20 +18,20 @@ const FullButton: React.FC<Props> = ({ children, loading, theme, ...props }: Pro
   if (theme === 'prime') {
     return (
       <StyledFullButton {...props} theme={theme}>
-        {loading ? <Loading size="1.5625em" theme="white" /> : children}
+        {loading ? <Loading size="1.125em" theme="white" /> : children}
       </StyledFullButton>
     );
   }
   if (theme === 'white') {
     return (
       <StyledFullButton {...props} theme={theme}>
-        {loading ? <Loading size="1.5625em" theme="primeBlack" /> : children}
+        {loading ? <Loading size="1.125em" theme="primeBlack" /> : children}
       </StyledFullButton>
     );
   }
   return (
     <StyledFullButton {...props} theme={theme}>
-      {loading ? <Loading size="1.5625em" /> : children}
+      {loading ? <Loading size="1.125em" /> : children}
     </StyledFullButton>
   );
 };

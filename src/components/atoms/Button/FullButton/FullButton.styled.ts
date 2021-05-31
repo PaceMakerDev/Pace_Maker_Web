@@ -1,9 +1,9 @@
 import styled, { css } from 'styled-components';
-import { PRIME_COLOR_CODE, PRIME_HOVER_COLOR_CODE } from 'common/constants';
+import { PRIME_COLOR_CODE, PRIME_HOVER_COLOR_CODE, DISABLE_COLOR_CODE } from 'common/constants';
 
 export const StyledFullButton = styled.button<{ fontSize?: string; theme?: 'prime' | 'white' }>`
   width: 100%;
-  padding: 0.8em 0;
+  padding: 1em 0;
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -24,7 +24,7 @@ export const StyledFullButton = styled.button<{ fontSize?: string; theme?: 'prim
         background-color: ${PRIME_HOVER_COLOR_CODE};
       }
       &:disabled {
-        background-color: ${PRIME_HOVER_COLOR_CODE};
+        background-color: ${DISABLE_COLOR_CODE};
         cursor: not-allowed;
       }
     `}
@@ -39,7 +39,7 @@ export const StyledFullButton = styled.button<{ fontSize?: string; theme?: 'prim
         background-color: #eaeaea;
       }
       &:disabled {
-        background-color: #eaeaea;
+        background-color: ${DISABLE_COLOR_CODE};
         cursor: not-allowed;
       }
     `}
