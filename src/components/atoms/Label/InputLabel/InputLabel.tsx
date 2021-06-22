@@ -3,6 +3,7 @@ import { StyledInputLabel } from './InputLabel.styled';
 
 interface Props {
   htmlFor: string;
+  className?: string;
   fontSize?: string;
   color?: string;
   required?: boolean;

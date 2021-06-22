@@ -5,6 +5,7 @@ interface Props {
   id?: string;
   name?: string;
   value?: string | number | readonly string[];
+  className?: string;
   type?: string;
   placeholder?: string;
   readOnly?: boolean;
@@ -12,6 +13,7 @@ interface Props {
   disabled?: boolean;
   _ref?: React.RefObject<HTMLInputElement> | null;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onClick?: React.MouseEventHandler<HTMLInputElement>;
 }
 
 const RadiusInput: React.FC<Props> = ({ _ref, ...props }: Props) => <StyledRadiusInput {...props} ref={_ref} />;
