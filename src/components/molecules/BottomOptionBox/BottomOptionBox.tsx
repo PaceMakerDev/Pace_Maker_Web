@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { MajorCategory } from 'Service';
-import { StyledAppOptionBox, StyledOptionBoxHeader, StyledOptionBoxContent } from './AppOptionBox.styled';
+import { StyledBottomOptionBox, StyledOptionBoxHeader, StyledOptionBoxContent } from './BottomOptionBox.styled';
 
 interface Props {
   options?: Array<MajorCategory>;
@@ -8,25 +8,25 @@ interface Props {
   onItemClick?: (value: string) => void;
 }
 
-const AppOptionBox: React.FC<Props> = ({ active, options, onItemClick }) => {
+const BottomOptionBox: React.FC<Props> = ({ active, options, onItemClick }) => {
   const [activeHeaderItem, setActiveHeaderItem] = useState(options && options[0].category);
   const majorItems = useMemo(() => {
     const filterMajorCategory = options?.find(headerItem => headerItem.category === activeHeaderItem);
     return filterMajorCategory?.majors;
   }, [activeHeaderItem, options]);
 
-  const appOptionBoxRef = useRef<HTMLDivElement>(null);
+  const bottomOptionBoxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (active) {
-      appOptionBoxRef.current?.classList.add('active');
+      bottomOptionBoxRef.current?.classList.add('active');
     } else {
-      appOptionBoxRef.current?.classList.remove('active');
+      bottomOptionBoxRef.current?.classList.remove('active');
     }
   }, [active]);
 
   return (
-    <StyledAppOptionBox ref={appOptionBoxRef}>
+    <StyledBottomOptionBox ref={bottomOptionBoxRef}>
       <StyledOptionBoxHeader>
         {options?.map(headerItem => (
           <div key={headerItem.category} className="header-item">
@@ -49,8 +49,8 @@ const AppOptionBox: React.FC<Props> = ({ active, options, onItemClick }) => {
           </li>
         ))}
       </StyledOptionBoxContent>
-    </StyledAppOptionBox>
+    </StyledBottomOptionBox>
   );
 };
 
-export default AppOptionBox;
+export default BottomOptionBox;

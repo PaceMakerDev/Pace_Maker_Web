@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import { APP_WIDTH, PRIME_COLOR_CODE, DISABLE_TEXT_COLOR_CODE } from 'common/constants';
 
-export const StyledAppOptionBox = styled.div`
-  width: ${APP_WIDTH};
+export const StyledBottomOptionBox = styled.div`
+  width: 100%;
+  max-width: ${APP_WIDTH};
   height: 300px;
   padding: 2.5rem 1.5rem;
   position: fixed;
