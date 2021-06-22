@@ -5,4 +5,4 @@ export const DISABLE_TEXT_COLOR_CODE = "#929292";
 
 export const APP_WIDTH = '480px';
 
-export const API_SERVER_ADDRESS = 'http://13.209.98.129/v1';
+export const API_SERVER_ADDRESS = 'https://api.pacemaker.site/v1';
