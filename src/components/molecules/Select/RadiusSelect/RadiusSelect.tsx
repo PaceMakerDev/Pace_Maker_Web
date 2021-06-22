@@ -1,21 +1,25 @@
 import React, { useState, useRef } from 'react';
 import BlackWrapper from 'components/atoms/BlackWrapper/BlackWrapper';
 import RadiusInput from 'components/atoms/Input/RadiusInput/RadiusInput';
-import AppOptionBox from 'components/molecules/AppOptionBox/AppOptionBox';
+import ObjectOptionBox from 'components/molecules/ObjectOptionBox/ObjectOptionBox';
+import BottomOptionBox from 'components/molecules/BottomOptionBox/BottomOptionBox';
 import { MajorCategory } from 'Service';
-import { StyledRadiusSelect } from './RadiusSelect.styled';
+import { StyledRadiusSelect, StyledInputArrow } from './RadiusSelect.styled';
 
 interface Props {
   id?: string;
   name?: string;
   value?: string;
+  className?: string;
   required?: boolean;
   placeholder?: string;
-  options?: Array<MajorCategory>;
+  bottomOptions?: Array<MajorCategory>;
+  objectOptions?: Array<string>;
+  optionType: 'BOTTOM' | 'OBJECT';
   onChange?: React.ChangeEventHandler;
 }
 
-const RadiusSelect: React.FC<Props> = ({ name, options, onChange, ...props }) => {
+const RadiusSelect: React.FC<Props> = ({ name, bottomOptions, objectOptions, optionType, onChange, ...props }) => {
   const [isActive, setIsActive] = useState(false);
   const hiddenInputRef = useRef<HTMLInputElement>(null);
 
@@ -33,15 +37,20 @@ const RadiusSelect: React.FC<Props> = ({ name, options, onChange, ...props }) =>
   };
 
   return (
-    <>
-      <StyledRadiusSelect onClick={handleActive}>
-        <RadiusInput readOnly name={name} {...props} />
-        <input type="text" name={name} hidden ref={hiddenInputRef} onChange={onChange} />
-      </StyledRadiusSelect>
+    <StyledRadiusSelect>
+      <RadiusInput readOnly name={name} {...props} onClick={handleActive} />
+      <StyledInputArrow onClick={handleActive}>&#9660;</StyledInputArrow>
+      <input type="text" name={name} hidden ref={hiddenInputRef} onChange={onChange} />
+
+      {optionType === 'OBJECT' && (
+        <ObjectOptionBox active={isActive} options={objectOptions} onItemClick={handleItemClick} />
+      )}
+      {optionType === 'BOTTOM' && (
+        <BottomOptionBox active={isActive} options={bottomOptions} onItemClick={handleItemClick} />
+      )}
 
       {isActive && <BlackWrapper onClick={handleActive} />}
-      <AppOptionBox active={isActive} options={options} onItemClick={handleItemClick} />
-    </>
+    </StyledRadiusSelect>
   );
 };
 
