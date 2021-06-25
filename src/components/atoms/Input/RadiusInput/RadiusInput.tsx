@@ -7,6 +7,8 @@ interface Props {
   value?: string | number | readonly string[];
   className?: string;
   type?: string;
+  minLength?: number;
+  maxLength?: number;
   placeholder?: string;
   readOnly?: boolean;
   required?: boolean;
