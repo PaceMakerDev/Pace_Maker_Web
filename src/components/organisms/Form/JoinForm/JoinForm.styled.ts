@@ -6,6 +6,10 @@ export const StyledInputBox = styled.div`
   .input-label {
     margin-bottom: 0.8rem;
   }
+
+  .error-message {
+    margin-top: 0.7rem;
+  }
 `;
 
 export const StyledRadioWrapper = styled.div`

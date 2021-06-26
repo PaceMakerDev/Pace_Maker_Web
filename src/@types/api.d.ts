@@ -4,6 +4,16 @@ declare module 'Api' {
     password: string;
   }
 
+  export interface SignupApi {
+    email: string;
+    name: string;
+    major: string;
+    studentId: string;
+    password: string;
+    birthday: string;
+    academicStatus: 'ATTENDING' | 'TAKE_OFF';
+  }
+
   export interface EmailFindApi {
     name: string;
     studentId: string;

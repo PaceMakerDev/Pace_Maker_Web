@@ -2,6 +2,8 @@ import React from 'react';
 import { StyledErrorMessage } from './ErrorMessage.styled';
 
 interface Props {
+  id?: string;
+  className?: string;
   visible?: boolean;
   shake?: boolean;
   children?: React.ReactNode;
