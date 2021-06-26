@@ -35,6 +35,7 @@ module.exports = {
       "react/require-default-props": ["off"],
       "react/jsx-props-no-spreading": ["off"],
       "react/no-array-index-key": "warn",
+      "radix": ["error", "as-needed"],
       "@typescript-eslint/no-unused-vars": ["warn"],
       "@typescript-eslint/no-explicit-any": ["off"],
   },

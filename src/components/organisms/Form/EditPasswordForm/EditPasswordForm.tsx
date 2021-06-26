@@ -67,7 +67,7 @@ const EditPasswordForm: React.FC = () => {
     if (!userId) {
       return null;
     }
-    return parseInt(userId, 10);
+    return parseInt(userId);
   };
 
   useEffect(() => {
