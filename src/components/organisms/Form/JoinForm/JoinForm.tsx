@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useCallback, useState, useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import InputLabel from 'components/atoms/Label/InputLabel/InputLabel';
 import RadiusInput from 'components/atoms/Input/RadiusInput/RadiusInput';
@@ -28,7 +28,7 @@ const JoinForm: React.FC = () => {
   const [userName, setUserName] = useState('');
   const [studentId, setStudentId] = useState('');
   const [major, setMajor] = useState('');
-  const [userId, setUserId] = useState('');
+  const [userEmail, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordValid, setPasswordValid] = useState('');
   const [academicStatus, setAcademicStatus] = useState<'ATTENDING' | 'TAKE_OFF'>('ATTENDING');
@@ -37,10 +37,10 @@ const JoinForm: React.FC = () => {
   const [day, setDay] = useState('');
   const [termsConditionsAgree, setTermsConditionsAgree] = useState(false);
 
-  const [isEmailFormat, setIsEmailFormat] = useState(true);
   const [isPasswordFormat, setIsPasswordFormat] = useState(true);
   const [isPasswordValid, setIsPasswordValid] = useState(true);
 
+  const { state } = useLocation<{ email?: string }>();
   const history = useHistory();
 
   const handleInput: React.ChangeEventHandler<HTMLInputElement> = useCallback(event => {
@@ -60,16 +60,6 @@ const JoinForm: React.FC = () => {
 
     if (name === 'major') {
       setMajor(value);
-    }
-
-    if (name === 'user-id') {
-      setUserId(value);
-
-      if (verifyEmailFormat(value)) {
-        setIsEmailFormat(true);
-      } else {
-        setIsEmailFormat(false);
-      }
     }
 
     if (name === 'academic-status') {
@@ -133,11 +123,6 @@ const JoinForm: React.FC = () => {
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async event => {
     event.preventDefault();
 
-    if (!isEmailFormat) {
-      alert('아이디를 이메일 형식으로 변경해주세요');
-      return;
-    }
-
     if (!isPasswordFormat) {
       alert('비밀번호를 형식에 맞게 변경해주세요');
       return;
@@ -165,7 +150,7 @@ const JoinForm: React.FC = () => {
 
     try {
       const body: SignupApi = {
-        email: userId,
+        email: userEmail,
         name: userName,
         major,
         studentId,
@@ -185,11 +170,6 @@ const JoinForm: React.FC = () => {
         alert(`Error: ${status}(${statusText})`);
       }
     }
-  };
-
-  const verifyEmailFormat = (email: string): boolean => {
-    const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-    return regExp.test(email);
   };
 
   const verifyPasswordFormat = (_password: string): boolean => {
@@ -216,6 +196,17 @@ const JoinForm: React.FC = () => {
   };
 
   const isNumber = (value: string): boolean => !Number.isNaN(Number(value));
+
+  useEffect(() => {
+    const email = state?.email;
+
+    if (email) {
+      setUserEmail(email);
+    } else {
+      alert('잘못된 경로로 접근하셨습니다');
+      history.goBack();
+    }
+  }, [state, history]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -269,17 +260,7 @@ const JoinForm: React.FC = () => {
         <InputLabel className="input-label" htmlFor="user-id" required>
           아이디
         </InputLabel>
-        <RadiusInput
-          id="user-id"
-          name="user-id"
-          value={userId}
-          required
-          placeholder="이메일 형식으로 적어주세요"
-          onChange={handleInput}
-        />
-        <ErrorMessage className="error-message" visible={!isEmailFormat}>
-          이메일 형식이 아닙니다
-        </ErrorMessage>
+        <RadiusInput id="user-id" name="user-id" required value={userEmail} readOnly />
       </StyledInputBox>
 
       <StyledInputBox>

@@ -14,6 +14,7 @@ import EditPassword from 'pages/MyPage/EditPassword';
 import FindEmail from 'pages/auth/FindEmail';
 import FindPassword from 'pages/auth/FindPassword';
 import { useAppSelector } from 'common/reduxhooks';
+import EmailVerification from 'pages/auth/EmailVerification';
 
 interface Props {
   isLoading: boolean;
@@ -50,6 +51,9 @@ const PageRouter: React.FC<SubProps> = ({ isLogined }: SubProps) =>
       </Route>
       <Route exact path="/auth/login">
         <Login />
+      </Route>
+      <Route exact path="/auth/join/email-verification">
+        <EmailVerification />
       </Route>
       <Route exact path="/auth/join">
         <Join />

@@ -16,7 +16,7 @@ const Index: React.FC = () => {
           <FullButton theme="prime" onClick={() => history.push('/auth/login')}>
             로그인
           </FullButton>
-          <FullButton theme="white" onClick={() => history.push('/auth/join')}>
+          <FullButton theme="white" onClick={() => history.push('/auth/join/email-verification')}>
             회원가입
           </FullButton>
         </>

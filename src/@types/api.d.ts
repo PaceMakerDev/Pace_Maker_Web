@@ -31,4 +31,13 @@ declare module 'Api' {
   export interface TokenHeaderApi {
     Authorization: string;
   }
+
+  export interface EmailCodeApi {
+    email: string;
+  }
+
+  export interface EmailVerifyApi {
+    email: string;
+    code: string;
+  }
 }
