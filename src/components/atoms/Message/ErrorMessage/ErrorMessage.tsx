@@ -6,6 +6,7 @@ interface Props {
   className?: string;
   visible?: boolean;
   shake?: boolean;
+  center?: boolean;
   children?: React.ReactNode;
 }
 
