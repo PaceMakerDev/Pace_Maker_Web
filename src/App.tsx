@@ -5,8 +5,8 @@ import Router from 'Router';
 import { useAppDispatch } from 'common/reduxhooks';
 import { setLogin, setLogout, setUser } from 'actions/auth';
 import { API_SERVER_ADDRESS } from 'common/constants';
-import { TokenHeaderApi } from 'Api';
-import { User } from 'User';
+
+/* global TokenHeaderApi, User */
 
 const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);

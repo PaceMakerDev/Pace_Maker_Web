@@ -7,7 +7,6 @@ import HighlightMessage from 'components/atoms/Message/HighlightMessage/Highligh
 import MiddleButton from 'components/atoms/Button/MiddleButton/MiddleButton';
 import ErrorMessage from 'components/atoms/Message/ErrorMessage/ErrorMessage';
 import FullButton from 'components/atoms/Button/FullButton/FullButton';
-import { EmailCodeApi, EmailVerifyApi } from 'Api';
 import { API_SERVER_ADDRESS } from 'common/constants';
 import {
   StyledEmailVerificationForm,
@@ -16,6 +15,8 @@ import {
   StyledEmailInputWrapper,
   StyledSubmitButtonWrapper,
 } from './EmailVerificationForm.styled';
+
+/* global EmailCodeApi, EmailVerifyApi */
 
 const EmailVerification: React.FC = () => {
   const [isVerify, setIsVerify] = useState(false);

@@ -9,10 +9,7 @@ import Textarea from 'components/atoms/Textarea/Textarea';
 import ErrorMessage from 'components/atoms/Message/ErrorMessage/ErrorMessage';
 import CheckBox from 'components/atoms/CheckBox/CheckBox';
 import FullButton from 'components/atoms/Button/FullButton/FullButton';
-import { SignupApi } from 'Api';
-import { yearData, monthData, dayData } from 'common/birthdayConst';
-import { majorData } from 'common/majorConst';
-import { API_SERVER_ADDRESS } from 'common/constants';
+import { API_SERVER_ADDRESS, SSU_MAJORS, YEARS, MONTHS, DAYS, TERMS_CONDITIONS_AGREE } from 'common/constants';
 import {
   StyledInputBox,
   StyledRadioWrapper,
@@ -21,8 +18,7 @@ import {
   StyledAgreeWrapper,
 } from './JoinForm.styled';
 
-const termsConditionsAgreeText =
-  'Pace Maker 개인정보수집방침\n\nOO(이하 “회사”)는 개인정보수집방침은 정보통신서비스제공자가 준수하여야 하는 정보통신망 이용촉진 및 정보보호 등에 관한 법률, 개인정보보호법 등 관계 법령 및 개인정보보호 규정, 가이드라인을 준수하고 있습니다. 본 개인정보수집방침은 회사에서 운영하는 WEKIT APP(이하 “WEKIT”)에 적용됩니다.';
+/* global SignupApi */
 
 const JoinForm: React.FC = () => {
   const [userName, setUserName] = useState('');
@@ -249,7 +245,7 @@ const JoinForm: React.FC = () => {
           id="major"
           name="major"
           value={major}
-          bottomOptions={majorData}
+          bottomOptions={SSU_MAJORS}
           optionType="BOTTOM"
           placeholder="학과를 선택하세요"
           onChange={handleInput}
@@ -340,7 +336,7 @@ const JoinForm: React.FC = () => {
               id="year"
               name="year"
               value={year}
-              objectOptions={yearData}
+              objectOptions={YEARS}
               optionType="OBJECT"
               onChange={handleInput}
             />
@@ -354,7 +350,7 @@ const JoinForm: React.FC = () => {
               id="month"
               name="month"
               value={month}
-              objectOptions={monthData}
+              objectOptions={MONTHS}
               optionType="OBJECT"
               onChange={handleInput}
             />
@@ -368,7 +364,7 @@ const JoinForm: React.FC = () => {
               id="day"
               name="day"
               value={day}
-              objectOptions={dayData}
+              objectOptions={DAYS}
               optionType="OBJECT"
               onChange={handleInput}
             />
@@ -381,7 +377,7 @@ const JoinForm: React.FC = () => {
         <InputLabel className="input-label" htmlFor="terms-conditions-agree" required>
           약관 동의
         </InputLabel>
-        <Textarea readOnly value={termsConditionsAgreeText} />
+        <Textarea readOnly value={TERMS_CONDITIONS_AGREE} />
         <StyledAgreeWrapper>
           <p className="check-name">이용 약관 동의</p>
           <CheckBox

@@ -1,20 +1,18 @@
-declare module 'Action' {
-  import { User } from 'User';
+/* global User */
 
-  export interface GetUserAction {
-    type: 'GET_USER';
-  }
+declare interface GetUserAction {
+  type: 'GET_USER';
+}
 
-  export interface SetUserAction {
-    type: 'SET_USER';
-    user: User;
-  }
+declare interface SetUserAction {
+  type: 'SET_USER';
+  user: User;
+}
 
-  export interface SetLoginAction {
-    type: 'SET_LOGIN';
-  }
+declare interface SetLoginAction {
+  type: 'SET_LOGIN';
+}
 
-  export interface SetLogoutAction {
-    type: 'SET_LOGOUT';
-  }
+declare interface SetLogoutAction {
+  type: 'SET_LOGOUT';
 }

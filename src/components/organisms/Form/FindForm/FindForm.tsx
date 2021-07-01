@@ -5,8 +5,9 @@ import FullButton from 'components/atoms/Button/FullButton/FullButton';
 import ErrorMessage from 'components/atoms/Message/ErrorMessage/ErrorMessage';
 import FindMessage from 'components/atoms/Message/FindMessage/FindMessage';
 import { API_SERVER_ADDRESS } from 'common/constants';
-import { EmailFindApi, PasswordFindApi } from 'Api';
 import { StyledInputWrapper, StyledErrorBox, StyledFindMessageWrapper } from './FindForm.styled';
+
+/* global EmailFindApi, PasswordFindApi */
 
 interface Props {
   type: 'email' | 'password';

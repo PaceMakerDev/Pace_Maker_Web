@@ -6,10 +6,10 @@ import FullButton from 'components/atoms/Button/FullButton/FullButton';
 import RadiusInput from 'components/atoms/Input/RadiusInput/RadiusInput';
 import ErrorMessage from 'components/atoms/Message/ErrorMessage/ErrorMessage';
 import { setLogin, setUser } from 'actions/auth';
-import { SigninApi, TokenHeaderApi } from 'Api';
-import { User } from 'User';
 import { API_SERVER_ADDRESS } from 'common/constants';
 import { StyledInputWrapper, StyledErrorBox } from './LoginForm.styled';
+
+/* global SigninApi, TokenHeaderApi, User */
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');

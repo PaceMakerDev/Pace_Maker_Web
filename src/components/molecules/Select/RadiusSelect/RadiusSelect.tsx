@@ -3,8 +3,9 @@ import BlackWrapper from 'components/atoms/BlackWrapper/BlackWrapper';
 import RadiusInput from 'components/atoms/Input/RadiusInput/RadiusInput';
 import ObjectOptionBox from 'components/molecules/ObjectOptionBox/ObjectOptionBox';
 import BottomOptionBox from 'components/molecules/BottomOptionBox/BottomOptionBox';
-import { MajorCategory } from 'Service';
 import { StyledRadiusSelect, StyledInputArrow } from './RadiusSelect.styled';
+
+/* global College */
 
 interface Props {
   id?: string;
@@ -13,7 +14,7 @@ interface Props {
   className?: string;
   required?: boolean;
   placeholder?: string;
-  bottomOptions?: Array<MajorCategory>;
+  bottomOptions?: Array<College>;
   objectOptions?: Array<string>;
   optionType: 'BOTTOM' | 'OBJECT';
   onChange?: React.ChangeEventHandler;

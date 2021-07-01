@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { MajorCategory } from 'Service';
 import { StyledBottomOptionBox, StyledOptionBoxHeader, StyledOptionBoxContent } from './BottomOptionBox.styled';
 
+/* global College */
+
 interface Props {
-  options?: Array<MajorCategory>;
+  options?: Array<College>;
   active?: boolean;
   onItemClick?: (value: string) => void;
 }

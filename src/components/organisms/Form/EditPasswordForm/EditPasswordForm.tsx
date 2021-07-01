@@ -6,9 +6,10 @@ import PresentId from 'components/molecules/PresetId/PresentId';
 import RadiusInput from 'components/atoms/Input/RadiusInput/RadiusInput';
 import ErrorMessage from 'components/atoms/Message/ErrorMessage/ErrorMessage';
 import { useAppSelector } from 'common/reduxhooks';
-import { EditPasswordApi, TokenHeaderApi } from 'Api';
 import { API_SERVER_ADDRESS } from 'common/constants';
 import { StyledInputWrapper, StyledErrorBox } from './EditPasswordForm.styled';
+
+/* global EditPasswordApi, TokenHeaderApi */
 
 const EditPasswordForm: React.FC = () => {
   const [newPassword, setNewPassword] = useState('');
