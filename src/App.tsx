@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import Router from 'Router';
-import { useAppDispatch } from 'common/reduxhooks';
+import { useAppDispatch } from 'common/hooks/reduxhooks';
 import { setLogin, setLogout, setUser } from 'actions/auth';
 import { API_SERVER_ADDRESS } from 'common/constants';
 

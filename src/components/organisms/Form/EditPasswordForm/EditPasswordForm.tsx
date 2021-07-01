@@ -5,7 +5,7 @@ import FullButton from 'components/atoms/Button/FullButton/FullButton';
 import PresentId from 'components/molecules/PresetId/PresentId';
 import RadiusInput from 'components/atoms/Input/RadiusInput/RadiusInput';
 import ErrorMessage from 'components/atoms/Message/ErrorMessage/ErrorMessage';
-import { useAppSelector } from 'common/reduxhooks';
+import { useAppSelector } from 'common/hooks/reduxhooks';
 import { API_SERVER_ADDRESS } from 'common/constants';
 import { StyledInputWrapper, StyledErrorBox } from './EditPasswordForm.styled';
 

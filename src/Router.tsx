@@ -13,7 +13,7 @@ import MyPage from 'pages/MyPage/index';
 import EditPassword from 'pages/MyPage/EditPassword';
 import FindEmail from 'pages/auth/FindEmail';
 import FindPassword from 'pages/auth/FindPassword';
-import { useAppSelector } from 'common/reduxhooks';
+import { useAppSelector } from 'common/hooks/reduxhooks';
 import EmailVerification from 'pages/auth/EmailVerification';
 
 interface Props {
