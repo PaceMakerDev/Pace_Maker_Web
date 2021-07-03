@@ -9,7 +9,7 @@ import { setLogin, setUser } from 'actions/auth';
 import { API_SERVER_ADDRESS } from 'common/constants';
 import { StyledInputWrapper, StyledErrorBox } from './LoginForm.styled';
 
-/* global SigninApi, TokenHeaderApi, User */
+/* global SigninApi, AuthHeader, User */
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -51,7 +51,7 @@ const LoginForm: React.FC = () => {
       saveUserId(userId);
 
       // get user //
-      const headers: TokenHeaderApi = getTokenHeader();
+      const headers: AuthHeader = getTokenHeader();
 
       const userResponse = await axios.get(`${API_SERVER_ADDRESS}/users/${userId}`, { headers });
       const user: User = userResponse.data.data;
@@ -105,7 +105,7 @@ const LoginForm: React.FC = () => {
     return [accessToken, refreshToken, shouldChangePassword, id];
   };
 
-  const getTokenHeader = (): TokenHeaderApi => {
+  const getTokenHeader = (): AuthHeader => {
     const accessToken: string | null = localStorage.getItem('ACCESS_TOKEN');
     return {
       Authorization: `Bearer ${accessToken}`,

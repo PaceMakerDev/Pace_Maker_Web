@@ -27,10 +27,6 @@ declare interface EditPasswordApi {
   newPassword: string;
 }
 
-declare interface TokenHeaderApi {
-  Authorization: string;
-}
-
 declare interface EmailCodeApi {
   email: string;
 }
@@ -38,4 +34,8 @@ declare interface EmailCodeApi {
 declare interface EmailVerifyApi {
   email: string;
   code: string;
+}
+
+declare interface AuthHeader {
+  Authorization: string;
 }

@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
 import Router from 'Router';
+import LoadingPaper from 'LoadingPaper';
+import { AxiosResponse } from 'axios';
 import { useAppDispatch } from 'common/hooks/reduxhooks';
 import { setLogin, setLogout, setUser } from 'actions/auth';
-import { API_SERVER_ADDRESS } from 'common/constants';
+import { fetchNewToken, fetchUserInfo } from 'common/apis/auth';
+import { removeAllToekn, saveNewToken } from 'utils/token';
+import { getUserId } from 'utils/user';
 
-/* global TokenHeaderApi, User */
+/* global User */
 
 const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -18,62 +21,40 @@ const App: React.FC = () => {
       const accessToken: string | null = localStorage.getItem('ACCESS_TOKEN');
       const refreshToken: string | null = localStorage.getItem('REFRESH_TOKEN');
 
-      try {
-        if (!accessToken) {
-          dispath(setLogout());
-          setIsLoading(false);
-          return;
-        }
-
-        const loginResponse = await axios.post(`${API_SERVER_ADDRESS}/auth/token/refresh`, { refreshToken });
-        const newAccessToken: string = loginResponse.data.data.accessToken;
-        saveNewToken(newAccessToken);
-
-        const userId: number | null = getUserId();
-        const headers: TokenHeaderApi = getTokenHeader();
-        const userResponse = await axios.get(`${API_SERVER_ADDRESS}/users/${userId}`, { headers });
-        const userData: User = userResponse.data.data;
-
-        dispath(setLogin());
-        dispath(setUser(userData));
+      if (!accessToken) {
+        dispath(setLogout());
         setIsLoading(false);
-      } catch (error) {
-        const { status, statusText } = error.response;
-        if (status === 401 || status === 403) {
-          localStorage.removeItem('ACCESS_TOKEN');
-          localStorage.removeItem('REFRESH_TOKEN');
-          alert('로그인 토큰이 만료되었거나 잘못되었습니다');
-          dispath(setLogout());
-          setIsLoading(false);
-        } else {
-          alert(`Error: ${status}(${statusText})`);
-        }
+        return;
       }
+
+      const loginResponse: AxiosResponse = await fetchNewToken(refreshToken);
+      const { status } = loginResponse;
+
+      if (status === 401 || status === 403) {
+        removeAllToekn();
+        alert('로그인 토큰이 만료되었거나 잘못되었습니다');
+        dispath(setLogout());
+        setIsLoading(false);
+      }
+
+      const newAccessToken: string = loginResponse.data.data.accessToken;
+      saveNewToken(newAccessToken);
+
+      const userId: number | null = getUserId();
+      const userResponse: AxiosResponse = await fetchUserInfo(userId);
+      const userData: User = userResponse.data.data;
+
+      dispath(setLogin());
+      dispath(setUser(userData));
+
+      setIsLoading(false);
     };
 
     handleAuth();
   }, [history, dispath]);
 
-  const getUserId = (): number | null => {
-    const userId = localStorage.getItem('userId');
-    if (!userId) {
-      return null;
-    }
-    return parseInt(userId);
-  };
-
-  const getTokenHeader = (): TokenHeaderApi => {
-    const accessToken = localStorage.getItem('ACCESS_TOKEN');
-    return {
-      Authorization: `Bearer ${accessToken}`,
-    };
-  };
-
-  const saveNewToken = (accessToken: string): void => {
-    localStorage.setItem('ACCESS_TOKEN', accessToken);
-  };
-
-  return <Router isLoading={isLoading} />;
+  return isLoading ? <LoadingPaper /> : <Router />
+  
 };
 
 export default App;

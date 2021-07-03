@@ -9,7 +9,7 @@ import { useAppSelector } from 'common/hooks/reduxhooks';
 import { API_SERVER_ADDRESS } from 'common/constants';
 import { StyledInputWrapper, StyledErrorBox } from './EditPasswordForm.styled';
 
-/* global EditPasswordApi, TokenHeaderApi */
+/* global EditPasswordApi, AuthHeader */
 
 const EditPasswordForm: React.FC = () => {
   const [newPassword, setNewPassword] = useState('');
@@ -44,7 +44,7 @@ const EditPasswordForm: React.FC = () => {
       }
       setLoading(true);
 
-      const headers: TokenHeaderApi = getTokenHeader();
+      const headers: AuthHeader = getTokenHeader();
       const body: EditPasswordApi = {
         newPassword,
       };
@@ -79,7 +79,7 @@ const EditPasswordForm: React.FC = () => {
     }
   }, [newPassword, newPasswordValid]);
 
-  const getTokenHeader = (): TokenHeaderApi => {
+  const getTokenHeader = (): AuthHeader => {
     const accessToken = localStorage.getItem('ACCESS_TOKEN');
     return {
       Authorization: `Bearer ${accessToken}`,

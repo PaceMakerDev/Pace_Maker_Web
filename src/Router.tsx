@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Background from 'Background';
 import MobileLayout from 'layout/MobileLayout/MobileLayout';
-import LoadingPaper from 'LoadingPaper';
 import Index from 'pages/Index';
 import Login from 'pages/auth/Login';
 import Join from 'pages/auth/Join';
@@ -15,10 +14,6 @@ import FindEmail from 'pages/auth/FindEmail';
 import FindPassword from 'pages/auth/FindPassword';
 import { useAppSelector } from 'common/hooks/reduxhooks';
 import EmailVerification from 'pages/auth/EmailVerification';
-
-interface Props {
-  isLoading: boolean;
-}
 
 interface SubProps {
   isLogined: boolean;
@@ -68,14 +63,16 @@ const PageRouter: React.FC<SubProps> = ({ isLogined }: SubProps) =>
     </Switch>
   );
 
-const Router: React.FC<Props> = ({ isLoading }: Props) => {
+const Router: React.FC = () => {
   const authStore = useAppSelector(state => state.authReducer);
 
   return (
     <BrowserRouter>
       <Background />
 
-      <MobileLayout>{isLoading ? <LoadingPaper /> : <PageRouter isLogined={authStore.isLogined} />}</MobileLayout>
+      <MobileLayout>
+        <PageRouter isLogined={authStore.isLogined} />
+      </MobileLayout>
     </BrowserRouter>
   );
 };
