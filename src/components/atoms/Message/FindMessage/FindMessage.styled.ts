@@ -1,10 +1,11 @@
 import styled, { css } from 'styled-components';
 import { PRIME_COLOR_CODE } from 'common/constants';
 
-export const StyledFindMessage = styled.p<{ theme?: 'main' | 'sub' }>`
+export const StyledFindMessage = styled.p<{ theme?: 'main' | 'sub'; center?: boolean }>`
   margin-bottom: 0.5em;
+  text-align: ${props => props.center && 'center'};
   font-weight: bold;
-
+    
   ${props =>
     props.theme === 'main' &&
     css`

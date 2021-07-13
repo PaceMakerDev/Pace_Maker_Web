@@ -1,6 +1,6 @@
-import { AuthState } from 'State';
-import { GetUserAction, SetUserAction, SetLoginAction, SetLogoutAction } from 'Action';
 import { GET_USER, SET_USER, SET_LOGIN, SET_LOGOUT } from 'actions/auth';
+
+/* global AuthState, GetUserAction, SetUserAction, SetLoginAction, SetLogoutAction */
 
 const initState: AuthState = {
   isLogined: false,

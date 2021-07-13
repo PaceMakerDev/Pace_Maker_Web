@@ -1,16 +1,41 @@
-declare module 'Api' {
-  export interface SigninApi {
-    email: string;
-    password: string;
-  }
+declare interface SigninApi {
+  email: string;
+  password: string;
+}
 
-  export interface EmailFindApi {
-    name: string;
-    studentId: string;
-  }
+declare interface SignupApi {
+  email: string;
+  name: string;
+  major: string;
+  studentId: string;
+  password: string;
+  birthday: string;
+  academicStatus: 'ATTENDING' | 'TAKE_OFF';
+}
 
-  export interface PasswordFindApi {
-    name: string;
-    email: string;
-  }
+declare interface EmailFindApi {
+  name: string;
+  studentId: string;
+}
+
+declare interface PasswordFindApi {
+  name: string;
+  email: string;
+}
+
+declare interface EditPasswordApi {
+  newPassword: string;
+}
+
+declare interface EmailCodeApi {
+  email: string;
+}
+
+declare interface EmailVerifyApi {
+  email: string;
+  code: string;
+}
+
+declare interface AuthHeader {
+  Authorization: string;
 }

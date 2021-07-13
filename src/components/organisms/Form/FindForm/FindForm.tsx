@@ -1,127 +1,75 @@
-import React, { useCallback, useRef, useState } from 'react';
-import axios from 'axios';
+import React, { useRef, useState } from 'react';
+import { AxiosResponse } from 'axios';
 import RadiusInput from 'components/atoms/Input/RadiusInput/RadiusInput';
 import FullButton from 'components/atoms/Button/FullButton/FullButton';
 import ErrorMessage from 'components/atoms/Message/ErrorMessage/ErrorMessage';
-import FindMessage from 'components/atoms/Message/FindMessage/FindMessage';
-import { API_SERVER_ADDRESS } from 'common/constants';
-import { EmailFindApi, PasswordFindApi } from 'Api';
-import { StyledInputWrapper, StyledErrorBox, StyledFindMessageWrapper } from './FindForm.styled';
+import { useInput } from 'common/hooks/input';
+import { useShakeAnimation } from 'common/hooks/animation';
+import { fetchEmailFind, fetchPasswordFind } from 'common/apis/auth';
+import { StyledInputWrapper, StyledErrorBox } from './FindForm.styled';
 
 interface Props {
-  type: 'email' | 'password';
+  authType: 'email' | 'password';
+  onSubmitOk: (name: string, email: string) => void;
 }
 
-const FindForm: React.FC<Props> = ({ type }: Props) => {
-  const [userName, setName] = useState('');
-  const [studentId, setStudentId] = useState('');
-  const [email, setEmail] = useState('');
-  const [isAuthIncorrect, setIsAuthIncorrect] = useState(false);
-  const [isShakeMessage, setIsShakeMessage] = useState(false);
-
-  const [isFindOk, setIsFindOk] = useState(false);
-  const [findEmail, setFindEmail] = useState('');
+const FindForm: React.FC<Props> = ({ authType, onSubmitOk }) => {
+  const [name, handleName] = useInput('');
+  const [studentId, handleStudentId] = useInput('');
+  const [email, handleEmail] = useInput('');
+  const [loading, setLoading] = useState(false);
+  const [isInfoIncorrect, setIsInfoIncorrect] = useState(false);
+  const [errorMessageRef, shakeMessage] = useShakeAnimation();
 
   const nameInputRef = useRef<HTMLInputElement>(null);
 
-  const handleInput: React.ChangeEventHandler<HTMLInputElement> = useCallback(event => {
-    const { name, value } = event.target;
-
-    if (name === 'name') {
-      setName(value);
-    }
-
-    if (name === 'studentId') {
-      setStudentId(value);
-    }
-
-    if (name === 'email') {
-      setEmail(value);
-    }
-  }, []);
-
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async event => {
-    try {
-      event.preventDefault();
+    event.preventDefault();
+    setLoading(true);
 
-      const emailBody: EmailFindApi = {
-        name: userName,
-        studentId,
-      };
-      const passwordBody: PasswordFindApi = {
-        name: userName,
-        email,
-      };
-
-      let response;
-      if (type === 'email') {
-        response = await axios.post(`${API_SERVER_ADDRESS}/auth/email/find`, emailBody);
-      }
-
-      if (type === 'password') {
-        response = await axios.post(`${API_SERVER_ADDRESS}/auth/password/find`, passwordBody);
-      }
-
-      const { data } = response?.data;
-      setFindEmail(data.email);
-      setIsFindOk(true);
-    } catch (error) {
-      const { status } = error.response;
-
-      if (status === 404) {
-        setIsAuthIncorrect(true);
-        setIsShakeMessage(true);
-        setTimeout(() => setIsShakeMessage(false), 400);
-
-        nameInputRef.current?.focus();
-      } else {
-        alert(`ErrorCode: ${status}`);
-      }
+    let response: AxiosResponse;
+    if (authType === 'email') {
+      response = await fetchEmailFind(name, studentId);
+    } else {
+      response = await fetchPasswordFind(name, email);
     }
+    const { status } = response;
+
+    if (status === 404) {
+      setIsInfoIncorrect(true);
+      shakeMessage();
+
+      nameInputRef.current?.focus();
+      setLoading(false);
+      return;
+    }
+
+    const emailData: string = response.data.data.email;
+    onSubmitOk(name, emailData);
   };
 
   return (
-    <>
-      {isFindOk ? (
-        <StyledFindMessageWrapper>
-          {type === 'email' && <FindMessage theme="main">{userName}님의 이메일입니다</FindMessage>}
-          {type === 'password' && (
-            <FindMessage theme="main">
-              {userName}님의 아래 이메일로
-              <br />
-              비밀번호 안내 메일을 발송했습니다
-            </FindMessage>
-          )}
-          <FindMessage theme="sub">{findEmail}</FindMessage>
-        </StyledFindMessageWrapper>
-      ) : (
-        <form onSubmit={handleSubmit}>
-          <StyledInputWrapper>
-            <RadiusInput
-              name="name"
-              value={userName}
-              placeholder="이름"
-              required
-              _ref={nameInputRef}
-              onChange={handleInput}
-            />
-            {type === 'email' && (
-              <RadiusInput name="studentId" value={studentId} placeholder="학번" required onChange={handleInput} />
-            )}
-            {type === 'password' && (
-              <RadiusInput name="email" value={email} placeholder="이메일" required onChange={handleInput} />
-            )}
-            <StyledErrorBox>
-              <ErrorMessage visible={isAuthIncorrect} shake={isShakeMessage}>
-                입력하신 정보로 가입된 정보가 없습니다
-              </ErrorMessage>
-            </StyledErrorBox>
-          </StyledInputWrapper>
-          {type === 'email' && <FullButton theme="prime">이메일 찾기</FullButton>}
-          {type === 'password' && <FullButton theme="prime">비밀번호 찾기</FullButton>}
-        </form>
-      )}
-    </>
+    <form onSubmit={handleSubmit}>
+      <StyledInputWrapper>
+        <RadiusInput name="name" value={name} placeholder="이름" required _ref={nameInputRef} onChange={handleName} />
+        {authType === 'email' && (
+          <RadiusInput name="studentId" value={studentId} placeholder="학번" required onChange={handleStudentId} />
+        )}
+        {authType === 'password' && (
+          <RadiusInput name="email" value={email} placeholder="이메일" required onChange={handleEmail} />
+        )}
+        <StyledErrorBox>
+          <ErrorMessage visible={isInfoIncorrect} _ref={errorMessageRef}>
+            입력하신 정보로 가입된 정보가 없습니다
+          </ErrorMessage>
+        </StyledErrorBox>
+      </StyledInputWrapper>
+
+      <FullButton theme="prime" loading={loading} disabled={loading}>
+        {authType === 'email' && '이메일 찾기'}
+        {authType === 'password' && '패스워드 찾기'}
+      </FullButton>
+    </form>
   );
 };
 

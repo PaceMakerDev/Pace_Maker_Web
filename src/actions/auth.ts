@@ -1,5 +1,5 @@
-import { GetUserAction, SetUserAction, SetLoginAction, SetLogoutAction } from 'Action';
-import { User } from 'User';
+/* global GetUserAction, SetUserAction, SetLoginAction, SetLogoutAction */
+/* global User */
 
 export const GET_USER = 'GET_USER';
 export const SET_USER = 'SET_USER';

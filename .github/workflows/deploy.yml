@@ -1,8 +1,8 @@
-name: Deploy to our server on Master
+name: Deploy to our server
 
 on:
   push:
-    branches: [ master ]
+    branches: [ deploy ]
 
 jobs:
   build:
@@ -45,3 +45,5 @@ jobs:
           build \
           s3://pace-maker \
           --recursive
+            
+        

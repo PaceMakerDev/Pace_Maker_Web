@@ -4,12 +4,11 @@ export const StyledForgotLinks = styled.div`
   display: flex;
 `;
 
-export const StyledLeftLinkWrapper = styled.div`
+export const StyledLinkWrapper = styled.div`
   flex: 1;
-  border-right: 1px solid #929292;
+  text-align: center;
 `;
 
-export const StyledRightLinkWrapper = styled.div`
-  flex: 1;
-  border-left: 1px solid #929292;
+export const StyledDivider = styled.span`
+  border: 1px solid #929292;
 `;

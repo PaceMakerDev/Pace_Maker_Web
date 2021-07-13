@@ -3,6 +3,7 @@ import { StyledFindMessage } from './FindMessage.styled';
 
 interface Props {
   theme?: 'main' | 'sub';
+  center?: boolean;
   children?: React.ReactNode;
 }
 

@@ -1,8 +1,6 @@
-declare module 'State' {
-  import { User } from "User";
+/* global User */
 
-  export interface AuthState {
-    isLogined: boolean;
-    user?: User;
-  }
+declare interface AuthState {
+  isLogined: boolean;
+  user?: User;
 }
