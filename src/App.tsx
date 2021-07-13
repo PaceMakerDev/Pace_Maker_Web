@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Router from 'Router';
-import LoadingPaper from 'LoadingPaper';
 import { AxiosResponse } from 'axios';
 import { useAppDispatch } from 'common/hooks/reduxhooks';
 import { setLogin, setLogout, setUser } from 'actions/auth';
 import { fetchNewToken, fetchUserInfo } from 'common/apis/auth';
-import { removeAllToekn, saveNewToken } from 'utils/token';
+import { removeAllToekn, saveToken } from 'utils/token';
 import { getUserId } from 'utils/user';
 
 /* global User */
@@ -35,10 +34,11 @@ const App: React.FC = () => {
         alert('로그인 토큰이 만료되었거나 잘못되었습니다');
         dispath(setLogout());
         setIsLoading(false);
+        return;
       }
 
       const newAccessToken: string = loginResponse.data.data.accessToken;
-      saveNewToken(newAccessToken);
+      saveToken(newAccessToken);
 
       const userId: number | null = getUserId();
       const userResponse: AxiosResponse = await fetchUserInfo(userId);
@@ -53,8 +53,7 @@ const App: React.FC = () => {
     handleAuth();
   }, [history, dispath]);
 
-  return isLoading ? <LoadingPaper /> : <Router />
-  
+  return <Router isLoading={isLoading} />;
 };
 
 export default App;

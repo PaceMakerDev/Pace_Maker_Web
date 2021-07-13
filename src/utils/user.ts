@@ -5,3 +5,7 @@ export const getUserId = (): number | null => {
   }
   return parseInt(userId);
 };
+
+export const setUesrId = (userId: number): void => {
+  localStorage.setItem('userId', JSON.stringify(userId));
+}

@@ -1,115 +1,77 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { useAppDispatch } from 'common/hooks/reduxhooks';
 import FullButton from 'components/atoms/Button/FullButton/FullButton';
 import RadiusInput from 'components/atoms/Input/RadiusInput/RadiusInput';
 import ErrorMessage from 'components/atoms/Message/ErrorMessage/ErrorMessage';
+import { useInput } from 'common/hooks/input';
+import { useShakeAnimation } from 'common/hooks/animation';
 import { setLogin, setUser } from 'actions/auth';
-import { API_SERVER_ADDRESS } from 'common/constants';
+import { saveToken } from 'utils/token';
+import { setUesrId } from 'utils/user';
+import { fetchSignin, fetchUserInfo } from 'common/apis/auth';
 import { StyledInputWrapper, StyledErrorBox } from './LoginForm.styled';
 
-/* global SigninApi, AuthHeader, User */
+/* global User */
+
+interface SigninData {
+  accessToken: string;
+  refreshToken: string;
+  shouldChangePassword: boolean;
+  user: {
+    id: number;
+    name: string;
+  };
+}
 
 const LoginForm: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [isAuthIncorrect, setIsAuthIncorrect] = useState(false);
-  const [isShakeMessage, setIsShakeMessage] = useState(false);
+  const [email, handleEmail] = useInput('');
+  const [password, handlePassword] = useInput('');
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [isLoginIncorrect, setIsLoginIncorrect] = useState(false);
+  const [errorMessageRef, shakeMessage] = useShakeAnimation();
 
   const emailInputRef = useRef<HTMLInputElement>(null);
 
   const dispath = useAppDispatch();
   const history = useHistory();
 
-  const handleInput: React.ChangeEventHandler<HTMLInputElement> = useCallback(event => {
-    const { name, value } = event.target;
-
-    if (name === 'email') {
-      setEmail(value);
-    }
-    if (name === 'password') {
-      setPassword(value);
-    }
-  }, []);
-
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async event => {
-    try {
-      event.preventDefault();
-      setLoading(true);
+    event.preventDefault();
+    setSubmitLoading(true);
 
-      // login //
-      const body: SigninApi = {
-        email,
-        password,
-      };
+    const signinResponse: AxiosResponse = await fetchSignin(email, password);
+    const { status } = signinResponse;
 
-      const loginResponse = await axios.post(`${API_SERVER_ADDRESS}/auth/signin`, body);
-      const [accessToken, refreshToken, shouldChangePassword, userId] = getLoginData(loginResponse);
-      saveToken(accessToken, refreshToken);
-      saveUserId(userId);
+    if (status === 404) {
+      setIsLoginIncorrect(true);
+      shakeMessage();
 
-      // get user //
-      const headers: AuthHeader = getTokenHeader();
-
-      const userResponse = await axios.get(`${API_SERVER_ADDRESS}/users/${userId}`, { headers });
-      const user: User = userResponse.data.data;
-
-      dispath(setLogin());
-      dispath(setUser(user));
-      routeNextPage(shouldChangePassword);
-    } catch (error) {
-      const { status, statusText } = error.response;
-
-      if (status === 404) {
-        setIsAuthIncorrect(true);
-        setIsShakeMessage(true);
-        setTimeout(() => setIsShakeMessage(false), 400);
-
-        emailInputRef.current?.focus();
-      } else {
-        alert(`Error: ${status}(${statusText})`);
-      }
-
-      setLoading(false);
+      emailInputRef.current?.focus();
+      setSubmitLoading(false);
+      return;
     }
+
+    const { accessToken, refreshToken, shouldChangePassword, user }: SigninData = signinResponse.data.data;
+    const userId: number = user.id;
+    saveToken(accessToken, refreshToken);
+    setUesrId(userId);
+
+    const userResponse = await fetchUserInfo(userId);
+    const userData: User = userResponse.data.data;
+
+    dispath(setLogin());
+    dispath(setUser(userData));
+    routeNextPage(shouldChangePassword);
   };
 
   const routeNextPage = (shouldChangePassword: boolean) => {
     if (shouldChangePassword) {
       history.push('/mypage/editpassword');
+    } else {
+      history.push('/mystudy');
     }
-  };
-
-  const saveToken = (accessToken: string, refreshToken: string): void => {
-    localStorage.setItem('ACCESS_TOKEN', accessToken);
-    localStorage.setItem('REFRESH_TOKEN', refreshToken);
-  };
-
-  const saveUserId = (id: number): void => {
-    localStorage.setItem('userId', JSON.stringify(id));
-  };
-
-  const getLoginData = (response: AxiosResponse): [string, string, boolean, number] => {
-    const {
-      data: {
-        data: {
-          accessToken,
-          refreshToken,
-          shouldChangePassword,
-          user: { id },
-        },
-      },
-    } = response;
-    return [accessToken, refreshToken, shouldChangePassword, id];
-  };
-
-  const getTokenHeader = (): AuthHeader => {
-    const accessToken: string | null = localStorage.getItem('ACCESS_TOKEN');
-    return {
-      Authorization: `Bearer ${accessToken}`,
-    };
   };
 
   return (
@@ -117,27 +79,31 @@ const LoginForm: React.FC = () => {
       <StyledInputWrapper>
         <RadiusInput
           name="email"
+          className="login-input"
           value={email}
           placeholder="이메일"
           required
           _ref={emailInputRef}
-          onChange={handleInput}
+          onChange={handleEmail}
         />
         <RadiusInput
           name="password"
+          className="login-input"
           value={password}
           type="password"
           placeholder="비밀번호"
           required
-          onChange={handleInput}
+          onChange={handlePassword}
         />
+
         <StyledErrorBox>
-          <ErrorMessage visible={isAuthIncorrect} shake={isShakeMessage}>
+          <ErrorMessage visible={isLoginIncorrect} _ref={errorMessageRef}>
             이메일이나 비밀번호가 올바르지 않습니다
           </ErrorMessage>
         </StyledErrorBox>
       </StyledInputWrapper>
-      <FullButton theme="prime" loading={loading} disabled={loading}>
+
+      <FullButton theme="prime" loading={submitLoading} disabled={submitLoading}>
         입장
       </FullButton>
     </form>

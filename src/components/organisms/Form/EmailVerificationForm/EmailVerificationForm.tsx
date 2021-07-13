@@ -7,6 +7,7 @@ import HighlightMessage from 'components/atoms/Message/HighlightMessage/Highligh
 import MiddleButton from 'components/atoms/Button/MiddleButton/MiddleButton';
 import ErrorMessage from 'components/atoms/Message/ErrorMessage/ErrorMessage';
 import FullButton from 'components/atoms/Button/FullButton/FullButton';
+import { useShakeAnimation } from 'common/hooks/animation';
 import { API_SERVER_ADDRESS } from 'common/constants';
 import {
   StyledEmailVerificationForm,
@@ -21,8 +22,8 @@ import {
 const EmailVerification: React.FC = () => {
   const [isVerify, setIsVerify] = useState(false);
   const [isCorrectCode, setIsCorrectCode] = useState(true);
-  const [isShakeMessage, setIsShakeMessage] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errorMessageRef, shakeMessage] = useShakeAnimation();
 
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
@@ -59,8 +60,7 @@ const EmailVerification: React.FC = () => {
 
       if (status === 404) {
         setIsCorrectCode(false);
-        setIsShakeMessage(true);
-        setTimeout(() => setIsShakeMessage(false), 400);
+        shakeMessage();
       } else {
         alert(`Error: ${status}(${statusText})`);
       }
@@ -104,7 +104,7 @@ const EmailVerification: React.FC = () => {
             </InputLabel>
 
             <RadiusInput id="code" name="code" value={code} required onChange={handleInput} />
-            <ErrorMessage className="error-message" visible={!isCorrectCode} shake={isShakeMessage}>
+            <ErrorMessage className="error-message" visible={!isCorrectCode} _ref={errorMessageRef}>
               인증코드가 올바르지 않습니다
             </ErrorMessage>
           </StyledInputBox>

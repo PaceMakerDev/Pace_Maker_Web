@@ -13,4 +13,4 @@ const HighlightMessage: React.FC<Props> = ({ children, ...props }) => (
   <StyledHighlightMessage {...props}>{children}</StyledHighlightMessage>
 );
 
-export default HighlightMessage;
+export default React.memo(HighlightMessage);

@@ -7,8 +7,19 @@ export const getAuthApiHeader = (): AuthHeader => {
   };
 };
 
-export const saveNewToken = (token: string): void => {
-  localStorage.setItem('ACCESS_TOKEN', token);
+export const getToken = (): [string | null, string | null] => {
+  const accessToken = localStorage.getItem('ACCESS_TOKEN');
+  const referchToken = localStorage.getItem('REFRESH_TOKEN');
+  return [accessToken, referchToken];
+};
+
+export const saveToken = (accessToken: string, refreshToken?: string): void => {
+  if (refreshToken) {
+    localStorage.setItem('ACCESS_TOKEN', accessToken);
+    localStorage.setItem('REFRESH_TOKEN', refreshToken);
+  } else {
+    localStorage.setItem('ACCESS_TOKEN', accessToken);
+  }
 };
 
 export const removeAllToekn = (): void => {

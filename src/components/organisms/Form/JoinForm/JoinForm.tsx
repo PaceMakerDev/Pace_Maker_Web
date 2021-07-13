@@ -1,6 +1,7 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import { AxiosResponse } from 'axios';
+import { useCheckInput, useInput, useNumberInput } from 'common/hooks/input';
 import InputLabel from 'components/atoms/Label/InputLabel/InputLabel';
 import RadiusInput from 'components/atoms/Input/RadiusInput/RadiusInput';
 import RadiusSelect from 'components/molecules/Select/RadiusSelect/RadiusSelect';
@@ -9,7 +10,9 @@ import Textarea from 'components/atoms/Textarea/Textarea';
 import ErrorMessage from 'components/atoms/Message/ErrorMessage/ErrorMessage';
 import CheckBox from 'components/atoms/CheckBox/CheckBox';
 import FullButton from 'components/atoms/Button/FullButton/FullButton';
-import { API_SERVER_ADDRESS, SSU_MAJORS, YEARS, MONTHS, DAYS, TERMS_CONDITIONS_AGREE } from 'common/constants';
+import { fetchSignup } from 'common/apis/auth';
+import { createBirthdayFormat } from 'utils/format';
+import { SSU_MAJORS, YEARS, MONTHS, DAYS, TERMS_CONDITIONS_AGREE } from 'common/constants';
 import {
   StyledInputBox,
   StyledRadioWrapper,
@@ -18,154 +21,79 @@ import {
   StyledAgreeWrapper,
 } from './JoinForm.styled';
 
-/* global SignupApi */
-
 const JoinForm: React.FC = () => {
-  const [userName, setUserName] = useState('');
-  const [studentId, setStudentId] = useState('');
-  const [major, setMajor] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordValid, setPasswordValid] = useState('');
-  const [academicStatus, setAcademicStatus] = useState<'ATTENDING' | 'TAKE_OFF'>('ATTENDING');
-  const [year, setYear] = useState('');
-  const [month, setMonth] = useState('');
-  const [day, setDay] = useState('');
-  const [termsConditionsAgree, setTermsConditionsAgree] = useState(false);
+  const [name, handleName] = useInput('');
+  const [studentId, handleStudentId] = useNumberInput();
+  const [major, handleMajor] = useInput('');
+  const [email, setEmail] = useState('');
+  const [password, handlePassword] = useInput('');
+  const [passwordValid, handlePasswordValid] = useInput('');
+  const [academicStatus, handleAcademicStatus] = useInput<'ATTENDING' | 'TAKE_OFF'>('ATTENDING');
+  const [year, handleYear] = useInput('');
+  const [month, handleMonth] = useInput('');
+  const [day, handleDay] = useInput('');
+  const [termsConditionsAgree, handleTermsConditionsAgree] = useCheckInput(false);
 
-  const [isPasswordFormat, setIsPasswordFormat] = useState(true);
-  const [isPasswordValid, setIsPasswordValid] = useState(true);
+  const [isPasswordFormatOk, setIsPasswordFormatOk] = useState(true);
+  const [isPasswordCorrect, setIsPasswordCorrect] = useState(true);
 
   const { state } = useLocation<{ email?: string }>();
   const history = useHistory();
 
-  const handleInput: React.ChangeEventHandler<HTMLInputElement> = useCallback(event => {
-    const { value, name, checked } = event.target;
-
-    if (name === 'name') {
-      setUserName(value);
-    }
-
-    if (name === 'student-id') {
-      if (isNumber(value)) {
-        setStudentId(value);
-      } else {
-        alert('숫자만 입력해주세요');
-      }
-    }
-
-    if (name === 'major') {
-      setMajor(value);
-    }
-
-    if (name === 'academic-status') {
-      if (value === 'ATTENDING') {
-        setAcademicStatus(value);
-      }
-
-      if (value === 'TAKE_OFF') {
-        setAcademicStatus(value);
-      }
-    }
-
-    if (name === 'year') {
-      setYear(value);
-    }
-
-    if (name === 'month') {
-      setMonth(value);
-    }
-
-    if (name === 'day') {
-      setDay(value);
-    }
-
-    if (name === 'terms-conditions-agree') {
-      setTermsConditionsAgree(checked);
-    }
-  }, []);
-
-  const handlePassword: React.ChangeEventHandler<HTMLInputElement> = useCallback(
-    event => {
-      const { value, name } = event.target;
-      if (name === 'password') {
-        setPassword(value);
-
-        if (passwordValid === value || passwordValid.length === 0) {
-          setIsPasswordValid(true);
-        } else {
-          setIsPasswordValid(false);
-        }
-
-        if (verifyPasswordFormat(value)) {
-          setIsPasswordFormat(true);
-        } else {
-          setIsPasswordFormat(false);
-        }
-      }
-      if (name === 'password-valid') {
-        setPasswordValid(value);
-
-        if (password === value) {
-          setIsPasswordValid(true);
-        } else {
-          setIsPasswordValid(false);
-        }
-      }
-    },
-    [password, passwordValid]
-  );
-
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async event => {
     event.preventDefault();
 
-    if (!isPasswordFormat) {
-      alert('비밀번호를 형식에 맞게 변경해주세요');
+    if (!verifyInputs()) {
       return;
     }
 
-    if (!isPasswordValid) {
-      alert('비밀번호와 비밀번호확인이 다릅니다');
+    const signupResponse: AxiosResponse = await fetchSignup(
+      email,
+      name,
+      major,
+      studentId,
+      password,
+      createBirthdayFormat(year, month, day),
+      academicStatus
+    );
+    const { status } = signupResponse;
+
+    if (status === 409) {
+      alert('중복 가입된 이메일이 있습니다');
       return;
+    }
+
+    alert('회원가입이 완료되었습니다');
+    history.push('/');
+  };
+
+  const verifyInputs = (): boolean => {
+    if (!isPasswordFormatOk) {
+      alert('비밀번호를 형식에 맞게 변경해주세요');
+      return false;
+    }
+
+    if (!isPasswordCorrect) {
+      alert('비밀번호와 비밀번호확인이 다릅니다');
+      return false;
     }
 
     if (!major) {
       alert('학과를 선택해주세요');
-      return;
+      return false;
     }
 
     if (!year || !month || !day) {
       alert('생년월일을 입력해주세요');
-      return;
+      return false;
     }
 
     if (!termsConditionsAgree) {
       alert('이용 약관 동의에 동의해주세요');
-      return;
+      return false;
     }
 
-    try {
-      const body: SignupApi = {
-        email: userEmail,
-        name: userName,
-        major,
-        studentId,
-        password,
-        birthday: makeBirthdayFormat(year, month, day),
-        academicStatus,
-      };
-
-      await axios.post(`${API_SERVER_ADDRESS}/auth/signup`, body);
-      alert('회원가입이 완료되었습니다');
-      history.push('/');
-    } catch (error) {
-      const { status, statusText } = error.response;
-      if (status === 409) {
-        alert('중복 가입된 이메일이 있습니다');
-      } else {
-        alert(`Error: ${status}(${statusText})`);
-      }
-    }
+    return true;
   };
 
   const verifyPasswordFormat = (_password: string): boolean => {
@@ -173,36 +101,32 @@ const JoinForm: React.FC = () => {
     return regExp.test(_password);
   };
 
-  const makeBirthdayFormat = (_year: string, _month: string, _day: string): string => {
-    let result = year;
-
-    if (parseInt(_month) < 10) {
-      result += `-0${_month}`;
-    } else {
-      result += `-${_month}`;
-    }
-
-    if (parseInt(_day) < 10) {
-      result += `-0${_day}`;
-    } else {
-      result += `-${_day}`;
-    }
-
-    return result;
-  };
-
-  const isNumber = (value: string): boolean => !Number.isNaN(Number(value));
-
   useEffect(() => {
-    const email = state?.email;
+    const verifiedEmail = state?.email;
 
-    if (email) {
-      setUserEmail(email);
+    if (verifiedEmail) {
+      setEmail(verifiedEmail);
     } else {
       alert('잘못된 경로로 접근하셨습니다');
       history.goBack();
     }
   }, [state, history]);
+
+  useEffect(() => {
+    if (verifyPasswordFormat(password) || password.length === 0) {
+      setIsPasswordFormatOk(true);
+    } else {
+      setIsPasswordFormatOk(false);
+    }
+  }, [password]);
+
+  useEffect(() => {
+    if (password === passwordValid) {
+      setIsPasswordCorrect(true);
+    } else {
+      setIsPasswordCorrect(false);
+    }
+  }, [password, passwordValid]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -213,11 +137,11 @@ const JoinForm: React.FC = () => {
         <RadiusInput
           id="name"
           name="name"
-          value={userName}
+          value={name}
           minLength={2}
           required
           placeholder="ex) 홍길동"
-          onChange={handleInput}
+          onChange={handleName}
         />
       </StyledInputBox>
 
@@ -233,7 +157,7 @@ const JoinForm: React.FC = () => {
           maxLength={8}
           required
           placeholder="ex) 20181234"
-          onChange={handleInput}
+          onChange={handleStudentId}
         />
       </StyledInputBox>
 
@@ -248,7 +172,7 @@ const JoinForm: React.FC = () => {
           bottomOptions={SSU_MAJORS}
           optionType="BOTTOM"
           placeholder="학과를 선택하세요"
-          onChange={handleInput}
+          onChange={handleMajor}
         />
       </StyledInputBox>
 
@@ -256,7 +180,7 @@ const JoinForm: React.FC = () => {
         <InputLabel className="input-label" htmlFor="user-id" required>
           아이디
         </InputLabel>
-        <RadiusInput id="user-id" name="user-id" required value={userEmail} readOnly />
+        <RadiusInput id="user-id" name="user-id" required value={email} readOnly />
       </StyledInputBox>
 
       <StyledInputBox>
@@ -274,7 +198,7 @@ const JoinForm: React.FC = () => {
           placeholder="영문+숫자+특수문자 조합 8-16자리"
           onChange={handlePassword}
         />
-        <ErrorMessage className="error-message" visible={!isPasswordFormat}>
+        <ErrorMessage className="error-message" visible={!isPasswordFormatOk}>
           영문, 숫자, 특수문자 조합 8-16자리가 아닙니다
         </ErrorMessage>
       </StyledInputBox>
@@ -291,9 +215,9 @@ const JoinForm: React.FC = () => {
           maxLength={16}
           required
           type="password"
-          onChange={handlePassword}
+          onChange={handlePasswordValid}
         />
-        <ErrorMessage className="error-message" visible={!isPasswordValid}>
+        <ErrorMessage className="error-message" visible={!isPasswordCorrect}>
           비밀번호가 일치하지 않습니다
         </ErrorMessage>
       </StyledInputBox>
@@ -309,7 +233,7 @@ const JoinForm: React.FC = () => {
             value="ATTENDING"
             name="academic-status"
             checked={academicStatus === 'ATTENDING'}
-            onChange={handleInput}
+            onChange={handleAcademicStatus}
           >
             재학
           </Radio>
@@ -319,7 +243,7 @@ const JoinForm: React.FC = () => {
             value="TAKE_OFF"
             name="academic-status"
             checked={academicStatus === 'TAKE_OFF'}
-            onChange={handleInput}
+            onChange={handleAcademicStatus}
           >
             휴학
           </Radio>
@@ -338,7 +262,7 @@ const JoinForm: React.FC = () => {
               value={year}
               objectOptions={YEARS}
               optionType="OBJECT"
-              onChange={handleInput}
+              onChange={handleYear}
             />
           </StyledBirthdayInputWrapper>
           <span>년</span>
@@ -352,7 +276,7 @@ const JoinForm: React.FC = () => {
               value={month}
               objectOptions={MONTHS}
               optionType="OBJECT"
-              onChange={handleInput}
+              onChange={handleMonth}
             />
           </StyledBirthdayInputWrapper>
           <span>월</span>
@@ -366,7 +290,7 @@ const JoinForm: React.FC = () => {
               value={day}
               objectOptions={DAYS}
               optionType="OBJECT"
-              onChange={handleInput}
+              onChange={handleDay}
             />
           </StyledBirthdayInputWrapper>
           <span>일</span>
@@ -384,7 +308,7 @@ const JoinForm: React.FC = () => {
             id="terms-conditions-agree"
             name="terms-conditions-agree"
             checked={termsConditionsAgree}
-            onChange={handleInput}
+            onChange={handleTermsConditionsAgree}
           />
         </StyledAgreeWrapper>
       </StyledInputBox>

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const StyledInputWrapper = styled.div`
   margin-bottom: 2rem;
 
-  input {
+  .login-input {
     margin-bottom: 0.6rem;
   }
 `;
