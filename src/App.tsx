@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import Router from 'Router';
 import { AxiosResponse } from 'axios';
 import { useAppDispatch } from 'common/hooks/reduxhooks';
@@ -12,8 +11,7 @@ import { getUserId } from 'utils/user';
 
 const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const history = useHistory();
-  const dispath = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const handleAuth = async (): Promise<void> => {
@@ -21,7 +19,7 @@ const App: React.FC = () => {
       const refreshToken: string | null = localStorage.getItem('REFRESH_TOKEN');
 
       if (!accessToken) {
-        dispath(setLogout());
+        dispatch(setLogout());
         setIsLoading(false);
         return;
       }
@@ -32,7 +30,7 @@ const App: React.FC = () => {
       if (status === 401 || status === 403) {
         removeAllToekn();
         alert('로그인 토큰이 만료되었거나 잘못되었습니다');
-        dispath(setLogout());
+        dispatch(setLogout());
         setIsLoading(false);
         return;
       }
@@ -44,14 +42,14 @@ const App: React.FC = () => {
       const userResponse: AxiosResponse = await fetchUserInfo(userId);
       const userData: User = userResponse.data.data;
 
-      dispath(setLogin());
-      dispath(setUser(userData));
+      dispatch(setLogin());
+      dispatch(setUser(userData));
 
       setIsLoading(false);
     };
 
     handleAuth();
-  }, [history, dispath]);
+  }, [dispatch]);
 
   return <Router isLoading={isLoading} />;
 };
