@@ -16,10 +16,10 @@ interface Props {
   category: string;
   studyroomRank: number;
   myRank: number;
-  isMaster?: boolean;
+  isLeader?: boolean;
 }
 
-const StudyRoomBox: React.FC<Props> = ({ title, totalTime, category, studyroomRank, myRank, isMaster }) => (
+const StudyRoomBox: React.FC<Props> = ({ title, totalTime, category, studyroomRank, myRank, isLeader }) => (
   <StyledStudyRoomBox>
     <StyledStudyRoomBoxTop>
       <Badge>{category}</Badge>
@@ -27,7 +27,7 @@ const StudyRoomBox: React.FC<Props> = ({ title, totalTime, category, studyroomRa
     </StyledStudyRoomBoxTop>
     <StyledStudyRoomBoxTitle>
       {title}
-      {isMaster && <Icon width="1.2em" className="crown-icon" src={crownIcon} />}
+      {isLeader && <Icon width="1.2em" className="crown-icon" src={crownIcon} />}
     </StyledStudyRoomBoxTitle>
     <StyledStudyRoomBoxRanking>
       <div className="studyroom-rank">
