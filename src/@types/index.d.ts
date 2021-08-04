@@ -13,3 +13,17 @@ declare interface College {
   category: string;
   majors: Array<string>;
 }
+
+// Study Room Category
+declare type StudyTag = 'LANGUAGE' | 'IT' | 'NATIONAL_EXAM' | 'CERTIFICATE' | 'ENTANCE_EXAM' | 'EMPLOYMENT' | 'OTHER';
+
+// Study Room Object
+declare interface StudyRoomOverview {
+  id: number;
+  title: string;
+  studyRanking: number;
+  userRankingStudy: number;
+  studyTimeInSecond: number;
+  tag: StudyTag;
+  isLeader: boolean;
+}

@@ -13,17 +13,7 @@ import { setUesrId } from 'utils/user';
 import { fetchSignin, fetchUserInfo } from 'common/apis/auth';
 import { StyledInputWrapper, StyledErrorBox } from './LoginForm.styled';
 
-/* global User */
-
-interface SigninData {
-  accessToken: string;
-  refreshToken: string;
-  shouldChangePassword: boolean;
-  user: {
-    id: number;
-    name: string;
-  };
-}
+/* global User, SigninData */
 
 const LoginForm: React.FC = () => {
   const [email, handleEmail] = useInput('');
