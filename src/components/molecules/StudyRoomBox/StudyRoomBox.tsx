@@ -12,6 +12,8 @@ import {
 } from './StudyRoomBox.styled';
 
 interface Props {
+  id?: string;
+  className?: string;
   title: string;
   totalTime: number;
   category: string;
@@ -20,8 +22,8 @@ interface Props {
   isLeader?: boolean;
 }
 
-const StudyRoomBox: React.FC<Props> = ({ title, totalTime, category, studyroomRank, myRank, isLeader }) => (
-  <StyledStudyRoomBox>
+const StudyRoomBox: React.FC<Props> = ({ title, totalTime, category, studyroomRank, myRank, isLeader, ...props }) => (
+  <StyledStudyRoomBox {...props}>
     <StyledStudyRoomBoxTop>
       <Badge>{category}</Badge>
       <StyledStudyTitme>{transformSecondToTime(totalTime)}</StyledStudyTitme>
