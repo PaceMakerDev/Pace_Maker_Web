@@ -2,6 +2,7 @@ import React from 'react';
 import Badge from 'components/atoms/Badge/Badge';
 import Icon from 'components/atoms/Icon/Icon';
 import crownIcon from 'assets/icons/crown_icon.png';
+import { transformSecondToTime } from 'utils/format';
 import {
   StyledStudyRoomBox,
   StyledStudyRoomBoxTop,
@@ -12,7 +13,7 @@ import {
 
 interface Props {
   title: string;
-  totalTime: string;
+  totalTime: number;
   category: string;
   studyroomRank: number;
   myRank: number;
@@ -23,7 +24,7 @@ const StudyRoomBox: React.FC<Props> = ({ title, totalTime, category, studyroomRa
   <StyledStudyRoomBox>
     <StyledStudyRoomBoxTop>
       <Badge>{category}</Badge>
-      <StyledStudyTitme>{totalTime}</StyledStudyTitme>
+      <StyledStudyTitme>{transformSecondToTime(totalTime)}</StyledStudyTitme>
     </StyledStudyRoomBoxTop>
     <StyledStudyRoomBoxTitle>
       {title}
