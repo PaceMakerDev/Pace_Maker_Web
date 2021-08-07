@@ -1,3 +1,5 @@
+/* global StudyRoomOverview */
+
 declare interface SigninApi {
   email: string;
   password: string;
@@ -39,3 +41,15 @@ declare interface EmailVerifyApi {
 declare interface AuthHeader {
   Authorization: string;
 }
+
+declare interface SigninData {
+  accessToken: string;
+  refreshToken: string;
+  shouldChangePassword: boolean;
+  user: {
+    id: number;
+    name: string;
+  };
+}
+
+declare type MyStudyRoomData = Array<StudyRoomOverview>

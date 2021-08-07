@@ -2,6 +2,8 @@ import React from 'react';
 import { StyledImage } from './Image.styled';
 
 interface Props {
+  id?: string;
+  className?: string;
   src: string;
   alt: string;
   width?: string;

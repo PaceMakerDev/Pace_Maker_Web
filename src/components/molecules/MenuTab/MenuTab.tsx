@@ -51,21 +51,17 @@ const MenuTab: React.FC<Props> = ({ activeIndex }: Props) => {
 
   return (
     <StyledMenuTab>
-      {menus.map(menuNode => {
-        const { id, activeIconSrc, nonactiveIconSrc, title, path } = menuNode;
-
-        return (
-          <StyledMenuWrapper key={id}>
-            <MenuButton
-              activeIconSrc={activeIconSrc}
-              nonactiveIconSrc={nonactiveIconSrc}
-              title={title}
-              active={id === activeIndex}
-              onClick={() => history.push(path)}
-            />
-          </StyledMenuWrapper>
-        );
-      })}
+      {menus.map(({ id, activeIconSrc, nonactiveIconSrc, title, path }) => (
+        <StyledMenuWrapper key={id}>
+          <MenuButton
+            activeIconSrc={activeIconSrc}
+            nonactiveIconSrc={nonactiveIconSrc}
+            title={title}
+            active={id === activeIndex}
+            onClick={() => history.push(path)}
+          />
+        </StyledMenuWrapper>
+      ))}
     </StyledMenuTab>
   );
 };

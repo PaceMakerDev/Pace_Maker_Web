@@ -2,6 +2,8 @@ import React from 'react';
 import { StyledIcon } from './Icon.styled';
 
 interface Props {
+  id?: string;
+  className?: string;
   width?: string;
   height?: string;
   src?: string;

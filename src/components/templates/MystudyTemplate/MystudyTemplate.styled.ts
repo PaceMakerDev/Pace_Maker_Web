@@ -1,21 +1,29 @@
+import { APP_WIDTH } from 'common/constants';
 import styled from 'styled-components';
 
 export const StyledMystudyTemplate = styled.div`
-  height: 100vh;
-  padding: 3rem 0;
+  padding: 3rem 1.3rem;
   position: relative;
   overflow: scroll;
 `;
 
-export const StyledTodayStudyTimeSection = styled.section``;
+export const StyledTodayStudyTimeSection = styled.section`
+  margin-bottom: 3rem;
+`;
 
-export const StyledStudyGraphSection = styled.section``;
+export const StyledStudyGraphSection = styled.section`
+  margin-bottom: 3rem;
+`;
 
-export const StyledMystudyRoomSection = styled.section``;
+export const StyledMystudyRoomSection = styled.section`
+  margin-bottom: 3rem;
+`;
 
 export const StyledMenuTabSection = styled.menu`
   width: 100%;
-  position: absolute;
-  left: 0;
+  max-width: ${APP_WIDTH};
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
   bottom: 0;
 `;
