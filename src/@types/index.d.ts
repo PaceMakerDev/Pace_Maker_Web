@@ -22,7 +22,7 @@ declare interface StudyRoomOverview {
   id: number;
   title: string;
   studyRanking: number;
-  userRankingStudy: number;
+  userRankingInStudy: number;
   studyTimeInSecond: number;
   tag: StudyTag;
   isLeader: boolean;
