@@ -17,6 +17,7 @@ import MyPage from 'pages/MyPage/index';
 import EditPassword from 'pages/MyPage/EditPassword';
 import { useAppSelector } from 'common/hooks/reduxhooks';
 import Test from 'pages/Test';
+import CreateStudyRoom from 'pages/New/CreateStudyRoom';
 
 interface Props {
   isLoading: boolean;
@@ -40,6 +41,9 @@ const PageRouter: React.FC<SubProps> = ({ isLogined }: SubProps) =>
       </Route>
       <Route path="/findstudy">
         <FindStudy />
+      </Route>
+      <Route path="/new/studyroom">
+        <CreateStudyRoom />
       </Route>
       <Route path="/mypage/editpassword">
         <EditPassword />
