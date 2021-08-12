@@ -11,7 +11,8 @@ import FindEmail from 'pages/auth/FindEmail';
 import FindPassword from 'pages/auth/FindPassword';
 import MyStudy from 'pages/MyStudy';
 import StudyLeague from 'pages/StudyLeague';
-import FindStudy from 'pages/FindStudy';
+import FindStudy from 'pages/FindStudy/index';
+import StudySearch from 'pages/FindStudy/StudySearch';
 import MyPage from 'pages/MyPage/index';
 import EditPassword from 'pages/MyPage/EditPassword';
 import { useAppSelector } from 'common/hooks/reduxhooks';
@@ -33,6 +34,9 @@ const PageRouter: React.FC<SubProps> = ({ isLogined }: SubProps) =>
       </Route>
       <Route path="/studyleague">
         <StudyLeague />
+      </Route>
+      <Route path="/findstudy/search">
+        <StudySearch />
       </Route>
       <Route path="/findstudy">
         <FindStudy />
