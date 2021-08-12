@@ -36,3 +36,7 @@ body {
 input {
   box-sizing: border-box;
 }
+
+textarea {
+  line-height: 1.5;
+}

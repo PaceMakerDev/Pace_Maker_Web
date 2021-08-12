@@ -6,7 +6,9 @@ interface Props {
   name?: string;
   value?: string;
   height?: string;
+  placeholder?: string;
   readOnly?: boolean;
+  onChange?: React.ChangeEventHandler<HTMLTextAreaElement>
 }
 
 const Textarea: React.FC<Props> = ({ ...props }) => <StyledTextarea {...props} />;
