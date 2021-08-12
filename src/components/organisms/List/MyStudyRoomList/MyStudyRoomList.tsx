@@ -52,7 +52,7 @@ const MyStudyRoomList: React.FC = () => {
               className="study-room-item"
               title={item.title}
               totalTime={item.studyTimeInSecond}
-              category={item.tag}
+              category={item.category}
               studyroomRank={item.studyRanking}
               myRank={item.userRankingInStudy}
               isLeader={item.isLeader}
