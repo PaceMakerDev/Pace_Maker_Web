@@ -15,7 +15,7 @@ declare interface College {
 }
 
 // Study Room Category
-declare type StudyTag = 'LANGUAGE' | 'IT' | 'NATIONAL_EXAM' | 'CERTIFICATE' | 'ENTANCE_EXAM' | 'EMPLOYMENT' | 'OTHER';
+declare type StudyCategory = 'LANGUAGE' | 'IT' | 'NATIONAL_EXAM' | 'CERTIFICATE' | 'ENTANCE_EXAM' | 'EMPLOYMENT' | 'OTHER';
 
 // Study Room Object
 declare interface StudyRoomOverview {
@@ -24,6 +24,6 @@ declare interface StudyRoomOverview {
   studyRanking: number;
   userRankingInStudy: number;
   studyTimeInSecond: number;
-  tag: StudyTag;
+  category: StudyCategory;
   isLeader: boolean;
 }
