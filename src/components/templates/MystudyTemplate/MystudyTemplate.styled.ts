@@ -4,7 +4,6 @@ import styled from 'styled-components';
 export const StyledMystudyTemplate = styled.div`
   padding: 3rem 1.3rem;
   position: relative;
-  overflow: scroll;
 `;
 
 export const StyledTodayStudyTimeSection = styled.section`
