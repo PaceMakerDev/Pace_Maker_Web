@@ -16,7 +16,22 @@ export const StyledObjectOptionBox = styled.ul`
     height: 180px;
     bottom: -180px;
     visibility: visible;
-    overflow: scroll;
+    overflow-y: overlay;
+  }
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 10px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
   }
 `;
 

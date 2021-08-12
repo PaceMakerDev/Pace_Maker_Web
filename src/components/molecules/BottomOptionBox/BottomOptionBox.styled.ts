@@ -13,13 +13,28 @@ export const StyledBottomOptionBox = styled.div`
   visibility: hidden;
   border-radius: 10px 10px 0 0;
   background-color: #21292d;
-  overflow: scroll;
+  overflow-y: overlay;
   transition: all 0.5s ease-in-out;
   z-index: 11;
 
   &.active {
     visibility: visible;
     bottom: 0px;
+  }
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 10px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
   }
 `;
 
