@@ -2,10 +2,10 @@ import React, { useCallback, useState } from 'react';
 
 export const useInput = <T = string>(
   initState: T
-): [T, React.ChangeEventHandler<HTMLInputElement>, React.Dispatch<React.SetStateAction<T>>] => {
+): [T, React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>, React.Dispatch<React.SetStateAction<T>>] => {
   const [state, setState] = useState<T>(initState);
 
-  const handleInput: React.ChangeEventHandler<HTMLInputElement> = useCallback(event => {
+  const handleInput: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = useCallback(event => {
     const { value }: any = event.target;
     setState(value);
   }, []);
