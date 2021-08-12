@@ -40,3 +40,8 @@ input {
 textarea {
   line-height: 1.5;
 }
+
+::selection {
+  background-color: #AD00FF;
+  color: #fff;
+}
