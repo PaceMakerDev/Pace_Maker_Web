@@ -40,7 +40,7 @@ export const transformSecondToTime = (totalTime: number): string => {
   }
   remainTime %= 60;
 
-  temp = remainTime
+  temp = remainTime;
   if (temp < 10) {
     second = `0${temp}`;
   } else {
@@ -48,4 +48,34 @@ export const transformSecondToTime = (totalTime: number): string => {
   }
 
   return `${hour}:${minute}:${second}`;
+};
+
+export const handleTwoDigitHour = (_hour: string): string => {
+  let hour: string = _hour;
+
+  if (parseInt(hour) > 12) {
+    hour = (parseInt(hour) % 12).toString();
+  }
+  if (hour.length < 1) {
+    return '00';
+  }
+  if (hour.length < 2) {
+    return `0${hour}`;
+  }
+  return hour;
+};
+
+export const handleTwoDigitMinute = (_minute: string): string => {
+  let minute: string = _minute;
+
+  if (parseInt(minute) > 60) {
+    minute = (parseInt(minute) - 60).toString();
+  }
+  if (minute.length < 1) {
+    return '00';
+  }
+  if (minute.length < 2) {
+    return `0${minute}`;
+  }
+  return minute;
 };

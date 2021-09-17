@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useCallback, useReducer } from 'react';
 import { useInput, useNumberInput } from 'common/hooks/input';
 import { useAppSelector } from 'common/hooks/reduxhooks';
+import { setTimeAm, setTimeHour, setTimeMinute, setTimePm, toggleSchedule } from 'actions/studyschedule';
+import { studyScheduleRecucer } from 'reducers/studyschedule';
 import InputLabel from 'components/atoms/Label/InputLabel/InputLabel';
 import BasicMessage from 'components/atoms/Message/BasicMessage/BasicMessage';
+import DayToggle from 'components/molecules/Toggle/DayToggle/DayToggle';
+import AlarmTimeItem from 'components/molecules/AlarmTimeItem/AlarmTimeItem';
 import RadiusInput from 'components/atoms/Input/RadiusInput/RadiusInput';
 import Textarea from 'components/atoms/Textarea/Textarea';
 import FullButton from 'components/atoms/Button/FullButton/FullButton';
@@ -11,12 +15,76 @@ import {
   StyledInputBox,
   StyledUserName,
   StyledFlexWrapper,
+  StyledAlarmTimeWrapper,
+  StyledDayToggleWrapper,
   StyledStudyCapacity,
 } from './CreateStudyRoomForm.styled';
+
+/* global DayCode, ScheduleTime */
+
+const initStudySchedules: ScheduleTime[] = [
+  {
+    dayCode: 'MON',
+    dayName: '월',
+    isActive: false,
+    isAmPm: 'AM',
+    atHour: '00',
+    atMinute: '00',
+  },
+  {
+    dayCode: 'TUE',
+    dayName: '화',
+    isActive: false,
+    isAmPm: 'AM',
+    atHour: '00',
+    atMinute: '00',
+  },
+  {
+    dayCode: 'WED',
+    dayName: '수',
+    isActive: false,
+    isAmPm: 'AM',
+    atHour: '00',
+    atMinute: '00',
+  },
+  {
+    dayCode: 'THU',
+    dayName: '목',
+    isActive: false,
+    isAmPm: 'AM',
+    atHour: '00',
+    atMinute: '00',
+  },
+  {
+    dayCode: 'FRI',
+    dayName: '금',
+    isActive: false,
+    isAmPm: 'AM',
+    atHour: '00',
+    atMinute: '00',
+  },
+  {
+    dayCode: 'SAT',
+    dayName: '토',
+    isActive: false,
+    isAmPm: 'AM',
+    atHour: '00',
+    atMinute: '00',
+  },
+  {
+    dayCode: 'SUN',
+    dayName: '일',
+    isActive: false,
+    isAmPm: 'AM',
+    atHour: '00',
+    atMinute: '00',
+  },
+];
 
 const CreateStudyRoomForm: React.FC = () => {
   const [title, handleTitle] = useInput('');
   const [capacity, handleCapacity] = useNumberInput(0);
+  const [studySchedules, dispatchStudySchedules] = useReducer(studyScheduleRecucer, initStudySchedules);
   const [goal, handleGoal] = useInput('');
   const [rule, handleRule] = useInput('');
 
@@ -28,6 +96,33 @@ const CreateStudyRoomForm: React.FC = () => {
     alert('준비중입니다');
     alert(`title: ${title}\ncapacity: ${capacity}\ngoal: ${goal}\nrule: ${rule}`);
   };
+
+  const toggleDays = useCallback((dayCode: DayCode): void => {
+    dispatchStudySchedules(toggleSchedule(dayCode));
+  }, []);
+
+  const filterStudySchedules = useCallback(
+    (): ScheduleTime[] => studySchedules.filter(schedule => schedule.isActive),
+    [studySchedules]
+  );
+
+  const setScheduleAmPm = useCallback((dayCode: DayCode, type: 'AM' | 'PM'): void => {
+    if (type === 'AM') {
+      dispatchStudySchedules(setTimeAm(dayCode));
+    }
+
+    if (type === 'PM') {
+      dispatchStudySchedules(setTimePm(dayCode));
+    }
+  }, []);
+
+  const setScheduleHour = useCallback((dayCode: DayCode, hour: string): void => {
+    dispatchStudySchedules(setTimeHour(dayCode, hour));
+  }, []);
+
+  const setScheduleMinute = useCallback((dayCode: DayCode, minute: string): void => {
+    dispatchStudySchedules(setTimeMinute(dayCode, minute));
+  }, []);
 
   return (
     <StyledCreateStudyRoomForm onSubmit={handleSubmit}>
@@ -58,6 +153,43 @@ const CreateStudyRoomForm: React.FC = () => {
           </StyledStudyCapacity>
         </StyledFlexWrapper>
       </StyledInputBox>
+
+      <StyledInputBox>
+        <InputLabel fontSize="1rem" className="input-label" htmlFor="1">
+          스터디 알람 설정
+        </InputLabel>
+        <BasicMessage fontSize="0.8rem" className="thin-msg">
+          스터디 시간에 스터디원에게 알림이 갑니다
+        </BasicMessage>
+        <StyledDayToggleWrapper>
+          {studySchedules.map(schedule => (
+            <DayToggle
+              key={schedule.dayCode}
+              dayCode={schedule.dayCode}
+              active={schedule.isActive}
+              toggleDays={toggleDays}
+            >
+              {schedule.dayName}
+            </DayToggle>
+          ))}
+        </StyledDayToggleWrapper>
+      </StyledInputBox>
+
+      <StyledAlarmTimeWrapper>
+        {filterStudySchedules().map(schedule => (
+          <AlarmTimeItem
+            key={schedule.dayCode}
+            dayCode={schedule.dayCode}
+            dayName={schedule.dayName}
+            isAmPm={schedule.isAmPm}
+            hourValue={schedule.atHour}
+            minuteValue={schedule.atMinute}
+            setScheduleAmPm={setScheduleAmPm}
+            setScheduleHour={setScheduleHour}
+            setScheduleMinute={setScheduleMinute}
+          />
+        ))}
+      </StyledAlarmTimeWrapper>
 
       <StyledInputBox>
         <InputLabel fontSize="1rem" className="input-label" required htmlFor="1">

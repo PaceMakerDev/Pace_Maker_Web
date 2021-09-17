@@ -27,3 +27,17 @@ declare interface StudyRoomOverview {
   tag: StudyTag;
   isLeader: boolean;
 }
+
+// Days Code & Name
+declare type DayCode = 'MON' | 'TUE' | 'WED' | 'THU' | 'FRI' | 'SAT' | 'SUN';
+declare type DayName = '월' | '화' | '수' | '목' | '금' | '토' | '일';
+
+// Study Schedule Alarm time
+declare interface ScheduleTime {
+  readonly dayCode: DayCode;
+  readonly dayName: DayName;
+  isActive: boolean;
+  isAmPm: 'AM' | 'PM';
+  atHour: string;
+  atMinute: string;
+}

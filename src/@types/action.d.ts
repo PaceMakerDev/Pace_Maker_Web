@@ -1,4 +1,4 @@
-/* global User */
+/* global User, DayCode */
 
 declare interface GetUserAction {
   type: 'GET_USER';
@@ -15,4 +15,31 @@ declare interface SetLoginAction {
 
 declare interface SetLogoutAction {
   type: 'SET_LOGOUT';
+}
+
+declare interface ToggleScheduleAction {
+  type: 'TOGGLE_SCHEDULE';
+  dayCode: DayCode;
+}
+
+declare interface SetTimeAmAction {
+  type: 'SET_TIME_AM';
+  dayCode: DayCode;
+}
+
+declare interface SetTimePmAction {
+  type: 'SET_TIME_PM';
+  dayCode: DayCode;
+}
+
+declare interface SetTimeHourAction {
+  type: 'SET_TIME_HOUR';
+  dayCode: DayCode;
+  hour: string;
+}
+
+declare interface SetTimeMinuteAction {
+  type: 'SET_TIME_MINUTE';
+  dayCode: DayCode;
+  minute: string;
 }

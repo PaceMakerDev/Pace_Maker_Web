@@ -25,6 +25,16 @@ export const StyledInputBox = styled.div`
   }
 `;
 
+export const StyledDayToggleWrapper = styled.div`
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const StyledAlarmTimeWrapper = styled.ul`
+  margin-bottom: 3rem;
+`;
+
 export const StyledUserName = styled.h3`
   margin: 1.5rem 0;
   text-align: right;
