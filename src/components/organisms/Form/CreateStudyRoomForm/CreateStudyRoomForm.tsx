@@ -20,7 +20,7 @@ import {
   StyledStudyCapacity,
 } from './CreateStudyRoomForm.styled';
 
-/* global DayCode, ScheduleTime */
+/* global ScheduleTime, DayToggleClickEventHandler, AlarmTimeItemChangeAmPmEventHandler, AlarmTimeItemChangeHourEventHandler, AlarmTimeItemChangeMinuteEventHandler */
 
 const initStudySchedules: ScheduleTime[] = [
   {
@@ -97,7 +97,7 @@ const CreateStudyRoomForm: React.FC = () => {
     alert(`title: ${title}\ncapacity: ${capacity}\ngoal: ${goal}\nrule: ${rule}`);
   };
 
-  const toggleDays = useCallback((dayCode: DayCode): void => {
+  const handleScheduleToggle: DayToggleClickEventHandler<HTMLButtonElement> = useCallback((event, dayCode) => {
     dispatchStudySchedules(toggleSchedule(dayCode));
   }, []);
 
@@ -106,23 +106,32 @@ const CreateStudyRoomForm: React.FC = () => {
     [studySchedules]
   );
 
-  const setScheduleAmPm = useCallback((dayCode: DayCode, type: 'AM' | 'PM'): void => {
-    if (type === 'AM') {
-      dispatchStudySchedules(setTimeAm(dayCode));
-    }
+  const handleScheduleAmPm: AlarmTimeItemChangeAmPmEventHandler<HTMLButtonElement> = useCallback(
+    (event, dayCode, type) => {
+      if (type === 'AM') {
+        dispatchStudySchedules(setTimeAm(dayCode));
+      }
 
-    if (type === 'PM') {
-      dispatchStudySchedules(setTimePm(dayCode));
-    }
-  }, []);
+      if (type === 'PM') {
+        dispatchStudySchedules(setTimePm(dayCode));
+      }
+    },
+    []
+  );
 
-  const setScheduleHour = useCallback((dayCode: DayCode, hour: string): void => {
-    dispatchStudySchedules(setTimeHour(dayCode, hour));
-  }, []);
+  const handleScheduleHour: AlarmTimeItemChangeHourEventHandler<HTMLInputElement> = useCallback(
+    (event, dayCode, hour): void => {
+      dispatchStudySchedules(setTimeHour(dayCode, hour));
+    },
+    []
+  );
 
-  const setScheduleMinute = useCallback((dayCode: DayCode, minute: string): void => {
-    dispatchStudySchedules(setTimeMinute(dayCode, minute));
-  }, []);
+  const handleScheduleMinute: AlarmTimeItemChangeMinuteEventHandler<HTMLInputElement> = useCallback(
+    (event, dayCode, minute): void => {
+      dispatchStudySchedules(setTimeMinute(dayCode, minute));
+    },
+    []
+  );
 
   return (
     <StyledCreateStudyRoomForm onSubmit={handleSubmit}>
@@ -167,7 +176,7 @@ const CreateStudyRoomForm: React.FC = () => {
               key={schedule.dayCode}
               dayCode={schedule.dayCode}
               active={schedule.isActive}
-              toggleDays={toggleDays}
+              onClickToggle={handleScheduleToggle}
             >
               {schedule.dayName}
             </DayToggle>
@@ -184,9 +193,9 @@ const CreateStudyRoomForm: React.FC = () => {
             isAmPm={schedule.isAmPm}
             hourValue={schedule.atHour}
             minuteValue={schedule.atMinute}
-            setScheduleAmPm={setScheduleAmPm}
-            setScheduleHour={setScheduleHour}
-            setScheduleMinute={setScheduleMinute}
+            onChangeAmPm={handleScheduleAmPm}
+            onChangeHour={handleScheduleHour}
+            onChangeMinute={handleScheduleMinute}
           />
         ))}
       </StyledAlarmTimeWrapper>

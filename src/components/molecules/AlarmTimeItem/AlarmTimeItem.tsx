@@ -8,7 +8,7 @@ import {
   StyledTimeInput,
 } from './AlarmTimeItem.styled';
 
-/* global DayCode, DayName */
+/* global DayCode, DayName, AlarmTimeItemChangeAmPmEventHandler, AlarmTimeItemChangeHourEventHandler, AlarmTimeItemChangeMinuteEventHandler */
 
 interface Props {
   dayCode: DayCode;
@@ -16,9 +16,9 @@ interface Props {
   isAmPm?: 'AM' | 'PM';
   hourValue?: string;
   minuteValue?: string;
-  setScheduleAmPm: (dayCode: DayCode, type: 'AM' | 'PM') => void;
-  setScheduleHour: (dayCode: DayCode, hour: string) => void;
-  setScheduleMinute: (dayCode: DayCode, minute: string) => void;
+  onChangeAmPm: AlarmTimeItemChangeAmPmEventHandler<HTMLButtonElement>;
+  onChangeHour: AlarmTimeItemChangeHourEventHandler<HTMLInputElement>;
+  onChangeMinute: AlarmTimeItemChangeMinuteEventHandler<HTMLInputElement>;
 }
 
 const AlarmTimeItem: React.FC<React.LiHTMLAttributes<HTMLLIElement> & Props> = ({
@@ -27,9 +27,9 @@ const AlarmTimeItem: React.FC<React.LiHTMLAttributes<HTMLLIElement> & Props> = (
   isAmPm,
   hourValue,
   minuteValue,
-  setScheduleAmPm,
-  setScheduleHour,
-  setScheduleMinute,
+  onChangeAmPm,
+  onChangeHour,
+  onChangeMinute,
 }) => {
   const hourInputRef = useRef<HTMLInputElement>(null);
   const minuteInputRef = useRef<HTMLInputElement>(null);
@@ -38,34 +38,34 @@ const AlarmTimeItem: React.FC<React.LiHTMLAttributes<HTMLLIElement> & Props> = (
     const { id } = event.currentTarget;
 
     if (id === 'am-btn') {
-      setScheduleAmPm(dayCode, 'AM');
+      onChangeAmPm(event, dayCode, 'AM');
     }
 
     if (id === 'pm-btn') {
-      setScheduleAmPm(dayCode, 'PM');
+      onChangeAmPm(event, dayCode, 'PM');
     }
   };
 
   const handleHour: React.ChangeEventHandler<HTMLInputElement> = event => {
     const { value } = event.target;
-    setScheduleHour(dayCode, value.replace(/[^0-9]/g, ''));
+    onChangeHour(event, dayCode, value.replace(/[^0-9]/g, ''));
   };
 
   const handleMinute: React.ChangeEventHandler<HTMLInputElement> = event => {
     const { value } = event.target;
-    setScheduleMinute(dayCode, value.replace(/[^0-9]/g, ''));
+    onChangeMinute(event, dayCode, value.replace(/[^0-9]/g, ''));
   };
 
   const handleHourFormat: React.FocusEventHandler<HTMLInputElement> = event => {
     const { value } = event.target;
     const newValue = handleTwoDigitHour(value);
-    setScheduleHour(dayCode, newValue);
+    onChangeHour(event, dayCode, newValue);
   };
 
   const handleMinuteFormat: React.FocusEventHandler<HTMLInputElement> = event => {
     const { value } = event.target;
     const newValue = handleTwoDigitMinute(value);
-    setScheduleMinute(dayCode, newValue);
+    onChangeMinute(event, dayCode, newValue);
   };
 
   return (
