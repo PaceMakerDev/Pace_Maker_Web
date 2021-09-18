@@ -260,8 +260,8 @@ const JoinForm: React.FC = () => {
               id="year"
               name="year"
               value={year}
-              objectOptions={YEARS}
-              optionType="OBJECT"
+              accordionOptions={YEARS}
+              optionType="ACCORDION"
               onChange={handleYear}
             />
           </StyledBirthdayInputWrapper>
@@ -274,8 +274,8 @@ const JoinForm: React.FC = () => {
               id="month"
               name="month"
               value={month}
-              objectOptions={MONTHS}
-              optionType="OBJECT"
+              accordionOptions={MONTHS}
+              optionType="ACCORDION"
               onChange={handleMonth}
             />
           </StyledBirthdayInputWrapper>
@@ -288,8 +288,8 @@ const JoinForm: React.FC = () => {
               id="day"
               name="day"
               value={day}
-              objectOptions={DAYS}
-              optionType="OBJECT"
+              accordionOptions={DAYS}
+              optionType="ACCORDION"
               onChange={handleDay}
             />
           </StyledBirthdayInputWrapper>

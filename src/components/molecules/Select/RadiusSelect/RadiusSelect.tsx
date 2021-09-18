@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import BlackWrapper from 'components/atoms/BlackWrapper/BlackWrapper';
 import RadiusInput from 'components/atoms/Input/RadiusInput/RadiusInput';
-import ObjectOptionBox from 'components/molecules/ObjectOptionBox/ObjectOptionBox';
+import AccordionOptionBox from 'components/molecules/AccordionOptionBox/AccordionOptionBox';
 import BottomOptionBox from 'components/molecules/BottomOptionBox/BottomOptionBox';
 import { StyledRadiusSelect, StyledInputArrow } from './RadiusSelect.styled';
 
@@ -15,12 +15,12 @@ interface Props {
   required?: boolean;
   placeholder?: string;
   bottomOptions?: Array<College>;
-  objectOptions?: Array<string>;
-  optionType: 'BOTTOM' | 'OBJECT';
-  onChange?: React.ChangeEventHandler;
+  accordionOptions?: Array<string>;
+  optionType: 'BOTTOM' | 'ACCORDION';
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
-const RadiusSelect: React.FC<Props> = ({ name, bottomOptions, objectOptions, optionType, onChange, ...props }) => {
+const RadiusSelect: React.FC<Props> = ({ name, bottomOptions, accordionOptions, optionType, onChange, ...props }) => {
   const [isActive, setIsActive] = useState(false);
   const hiddenInputRef = useRef<HTMLInputElement>(null);
 
@@ -43,8 +43,8 @@ const RadiusSelect: React.FC<Props> = ({ name, bottomOptions, objectOptions, opt
       <StyledInputArrow onClick={handleActive}>&#9660;</StyledInputArrow>
       <input type="text" name={name} hidden ref={hiddenInputRef} onChange={onChange} />
 
-      {optionType === 'OBJECT' && (
-        <ObjectOptionBox active={isActive} options={objectOptions} onItemClick={handleItemClick} />
+      {optionType === 'ACCORDION' && (
+        <AccordionOptionBox active={isActive} options={accordionOptions} onItemClick={handleItemClick} />
       )}
       {optionType === 'BOTTOM' && (
         <BottomOptionBox active={isActive} options={bottomOptions} onItemClick={handleItemClick} />
