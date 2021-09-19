@@ -43,3 +43,18 @@ declare interface SetTimeMinuteAction {
   dayCode: DayCode;
   minute: string;
 }
+
+declare interface OpenModalAction {
+  type: 'OPEN_MODAL';
+  name: string;
+}
+
+declare interface CloseModalAction {
+  type: 'CLOSE_MODAL';
+  name: string;
+}
+
+declare interface ToggleModalAction {
+  type: 'TOGGLE_MODAL';
+  name: string;
+}
