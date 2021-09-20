@@ -4,7 +4,9 @@ import { AxiosResponse } from 'axios';
 import { useCheckInput, useInput, useNumberInput } from 'common/hooks/input';
 import InputLabel from 'components/atoms/Label/InputLabel/InputLabel';
 import RadiusInput from 'components/atoms/Input/RadiusInput/RadiusInput';
-import RadiusSelect from 'components/molecules/Select/RadiusSelect/RadiusSelect';
+import BottomSwipeSelect from 'components/molecules/Select/BottomSwipeSelect/BottomSwipeSelect';
+import CollegeOptionBox from 'components/molecules/CollegeOptionBox/CollegeOptionBox';
+import AccordionSelect from 'components/molecules/Select/AccordionSelect/AccordionSelect';
 import Radio from 'components/atoms/Radio/Radio';
 import Textarea from 'components/atoms/Textarea/Textarea';
 import ErrorMessage from 'components/atoms/Message/ErrorMessage/ErrorMessage';
@@ -21,17 +23,19 @@ import {
   StyledAgreeWrapper,
 } from './JoinForm.styled';
 
+/* global OptionBoxChangeEventHandler */
+
 const JoinForm: React.FC = () => {
   const [name, handleName] = useInput('');
   const [studentId, handleStudentId] = useNumberInput();
-  const [major, handleMajor] = useInput('');
+  const [major, setMajor] = useState('');
   const [email, setEmail] = useState('');
   const [password, handlePassword] = useInput('');
   const [passwordValid, handlePasswordValid] = useInput('');
   const [academicStatus, handleAcademicStatus] = useInput<'ATTENDING' | 'TAKE_OFF'>('ATTENDING');
-  const [year, handleYear] = useInput('');
-  const [month, handleMonth] = useInput('');
-  const [day, handleDay] = useInput('');
+  const [year, setYear] = useState('');
+  const [month, setMonth] = useState('');
+  const [day, setDay] = useState('');
   const [termsConditionsAgree, handleTermsConditionsAgree] = useCheckInput(false);
 
   const [isPasswordFormatOk, setIsPasswordFormatOk] = useState(true);
@@ -101,6 +105,22 @@ const JoinForm: React.FC = () => {
     return regExp.test(_password);
   };
 
+  const handleMajor: OptionBoxChangeEventHandler<HTMLButtonElement> = (event, majorName) => {
+    setMajor(majorName);
+  };
+
+  const handleYear: OptionBoxChangeEventHandler<HTMLLIElement> = (event, yearName) => {
+    setYear(yearName);
+  };
+
+  const handleMonth: OptionBoxChangeEventHandler<HTMLLIElement> = (event, monthName) => {
+    setMonth(monthName);
+  };
+
+  const handleDay: OptionBoxChangeEventHandler<HTMLLIElement> = (event, dayName) => {
+    setDay(dayName);
+  };
+
   useEffect(() => {
     const verifiedEmail = state?.email;
 
@@ -165,14 +185,12 @@ const JoinForm: React.FC = () => {
         <InputLabel className="input-label" htmlFor="major" required>
           학과
         </InputLabel>
-        <RadiusSelect
+        <BottomSwipeSelect
           id="major"
           name="major"
           value={major}
-          bottomOptions={SSU_MAJORS}
-          optionType="BOTTOM"
           placeholder="학과를 선택하세요"
-          onChange={handleMajor}
+          bottomComponent={<CollegeOptionBox options={SSU_MAJORS} onMajorClick={handleMajor} />}
         />
       </StyledInputBox>
 
@@ -256,13 +274,13 @@ const JoinForm: React.FC = () => {
         </InputLabel>
         <StyledBirthdayWrapper className="year">
           <StyledBirthdayInputWrapper>
-            <RadiusSelect
+            <AccordionSelect
+              accordionId="year"
               id="year"
               name="year"
               value={year}
-              accordionOptions={YEARS}
-              optionType="ACCORDION"
-              onChange={handleYear}
+              options={YEARS}
+              onItemClick={handleYear}
             />
           </StyledBirthdayInputWrapper>
           <span>년</span>
@@ -270,13 +288,13 @@ const JoinForm: React.FC = () => {
 
         <StyledBirthdayWrapper className="month">
           <StyledBirthdayInputWrapper>
-            <RadiusSelect
+            <AccordionSelect
+              accordionId="month"
               id="month"
               name="month"
               value={month}
-              accordionOptions={MONTHS}
-              optionType="ACCORDION"
-              onChange={handleMonth}
+              options={MONTHS}
+              onItemClick={handleMonth}
             />
           </StyledBirthdayInputWrapper>
           <span>월</span>
@@ -284,14 +302,7 @@ const JoinForm: React.FC = () => {
 
         <StyledBirthdayWrapper className="day">
           <StyledBirthdayInputWrapper>
-            <RadiusSelect
-              id="day"
-              name="day"
-              value={day}
-              accordionOptions={DAYS}
-              optionType="ACCORDION"
-              onChange={handleDay}
-            />
+            <AccordionSelect accordionId="day" id="day" name="day" value={day} options={DAYS} onItemClick={handleDay} />
           </StyledBirthdayInputWrapper>
           <span>일</span>
         </StyledBirthdayWrapper>

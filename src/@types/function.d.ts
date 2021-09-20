@@ -19,3 +19,5 @@ declare type AlarmTimeItemChangeMinuteEventHandler<T> = (
   dayCode: DayCode,
   minute: string
 ) => void;
+
+declare type OptionBoxChangeEventHandler<T> = (event: React.MouseEvent<T>, item: string) => void;

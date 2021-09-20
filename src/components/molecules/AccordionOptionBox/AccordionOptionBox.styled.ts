@@ -1,6 +1,10 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const StyledAccordionOptionBox = styled.ul`
+interface Props {
+  isShow?: boolean;
+}
+
+export const StyledAccordionOptionBox = styled.ul<Props>`
   width: 100%;
   height: 0;
   position: absolute;
@@ -12,12 +16,14 @@ export const StyledAccordionOptionBox = styled.ul`
   transition: all 0.3s ease-in-out;
   z-index: 11;
 
-  &.active {
-    height: 180px;
-    bottom: -180px;
-    visibility: visible;
-    overflow-y: overlay;
-  }
+  ${props =>
+    props.isShow &&
+    css`
+      height: 180px;
+      bottom: -180px;
+      overflow-y: overlay;
+      visibility: visible;
+    `}
 
   &::-webkit-scrollbar {
     width: 8px;

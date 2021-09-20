@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledRadiusSelect = styled.div`
+export const StyledAccordionSelect = styled.div`
   position: relative;
 
   input {
